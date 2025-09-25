@@ -2,20 +2,22 @@
 # IoT Venture Pitch
 ## ESE5180: IoT Wireless, Security, & Scaling
 
-**Team Name:** 
+**Team Name: Mesh** 
 
 | Team Member Name | Email Address       |
 |------------------|---------------------|
-| [Name 1]         | [Email 1]           |
+| Zeng Li          |lizeng@seas.upenn.edu|
 | [Name 2]         | [Email 2]           |
 | [Name 3]         | [Email 3]           |
 | [Name 4]         | [Email 4]           |
 
-**GitHub Repository URL:**
+**GitHub Repository URL:https://github.com/Lizzzzzz1122/Desk_Car.git**
 
 ## Concept Development
 
 ### Product Function
+
+The smart mouthguard is a wireless-enabled nighttime dental appliance, which integrates multiple sensors to monitor bruxism, oral condition and sleep position changes.
 
 ### Target Market & Demographics
 
@@ -25,6 +27,11 @@
 
 ### Security Requirements Specification
 
+
+
 ### Hardware Requirements Specification
 
+Nordic 
+
 ### Software Requirements Specification
+
