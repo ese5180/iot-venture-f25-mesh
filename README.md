@@ -7,7 +7,7 @@
 | Team Member Name | Email Address       |
 |------------------|---------------------|
 | Zeng Li          |lizeng@seas.upenn.edu|
-| [Name 2]         | [Email 2]           |
+| Haichao Zhao         |haichao@seas.upenn.edu           |
 | [Name 3]         | [Email 3]           |
 | [Name 4]         | [Email 4]           |
 
@@ -34,4 +34,5 @@ The smart mouthguard is a wireless-enabled nighttime dental appliance, which int
 Nordic 
 
 ### Software Requirements Specification
+
 
