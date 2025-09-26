@@ -9,7 +9,7 @@
 | Zeng Li          |lizeng@seas.upenn.edu|
 | Haichao Zhao         |haichao@seas.upenn.edu           |
 | Yuner Zhang      |yunerzh@seas.upenn.edu|
-| [Name 4]         | [Email 4]           |
+| Xinyi Wang         |xinyi888@seas.upenn.edu           |
 
 **GitHub Repository URL:https://github.com/ese5180/iot-venture-f25-mesh.git
 ## Concept Development
@@ -169,5 +169,28 @@ The system hardware consists of a low-power microcontroller, multiple sensors fo
 **HRS 06 – Structure and Materials.** The device shall use biocompatible, medical-grade materials with moisture and corrosion resistance for safe, durable intraoral use.
 
 ### Software Requirements Specification
+#### **Overview**
+The smart dental appliance software collects data from multiple onboard sensors (pressure, humidity/temperature, IMU), processes and stores it locally, and transfers data securely via Bluetooth Low Energy (BLE) to a mobile application. The mobile application displays both real-time and historical data, generates basic usage reports (such as bruxism event statistics and sleep condition changes), and synchronizes information with cloud storage when available.
+
+
+#### **Users**
+
+**General Consumers** – Individuals using the device at home for personal monitoring of nighttime bruxism, oral conditions, and sleep-related changes.   
+**Clinical Researchers and Medical Professionals** –  Users analyzing aggregated reports or exporting data for further research and treatment evaluation. 
+
+#### **Definitions, Abbreviations**
+
+**BLE** – Bluetooth Low Energy, a low-power wireless communication standard.  
+**IMU** – Inertial Measurement Unit, a sensor for acceleration and motion data.  
+**Offline cache** – Temporary local storage of sensor data when wireless connection is unavailable.  
+
+
+
+#### **Functionality**
+**SRS 01** – The system shall interface with the BMI270 IMU via the I²C bus to acquire 3-axis accelerometer and 3-axis gyroscope data, with a configurable sampling rate between 25 Hz and 200 Hz.  
+**SRS 02** – The system shall read the pressure sensor via I²C at a sampling rate of 50–200 Hz to detect bruxism-related pressure changes. It shall record peak force, duration, and event counts, and generate logs for bruxism event analysis.  
+**SRS 03** – The system shall access the temperature and humidity sensor via I²C with a configurable sampling rate between 0.1 Hz and 1 Hz, providing at least ±0.5 °C temperature accuracy and ±2 %RH humidity accuracy.  
+**SRS 04** – The system shall guarantee that real-time sensor data is displayed on the mobile application with an end-to-end latency of **≤ 1 second**.  
+**SRS 05** – The system shall provide offline data caching for at least **5 days** of usage when no wireless connection is available.  
 
 
