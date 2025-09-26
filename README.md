@@ -136,25 +136,37 @@ This section describes the security systems required for the smart dental brace 
 
 ### Hardware Requirements Specification
 
+#### **Overview**
 
-#### **HRS 01 – Core Microcontroller**  
-- The system shall utilize a low-power SoC with integrated Bluetooth Low Energy for device pairing, data synchronization, and multiple interfaces (I2C, SPI, UART) to connect with sensors and peripheral modules.
+The system hardware consists of a low-power microcontroller, multiple sensors for pressure, temperature, humidity, and an IMU for motion detection, along with a power management unit with a rechargeable battery. These hardware modules are integrated to support real-time monitoring and reliable data transmission.
 
-#### **HRS 02 – Oral Pressure Sensor**  
-- The system shall include a high-sensitivity pressure sensor to detect bite force and occlusion changes inside the mouthguard, enabling the identification of bruxism events and data recording when thresholds are exceeded.
+#### **Definitions, Abbreviations**
 
-#### **HRS 03 – Oral Temperature and Humidity Sensor**  
-- The system shall monitor intraoral temperature within 30°C–40°C and humidity within 70%–100% RH to provide accurate real-time data on oral environmental changes for health assessment and comfort analysis.
+**SoC** - System on Chip 
 
-#### **HRS 04 – IMU Sensor**  
-- The system shall include a six-axis IMU to capture head movements and sleep posture changes, supporting sleep quality analysis and the detection of abnormal sleeping behaviors.
+**BLE** - Bluetooth Low Energy  
 
-#### **HRS 05 – Power Management**  
-- The system shall adopt a low-power design with a rechargeable battery to support extended standby time and continuous overnight operation.
+**I2C** - Inter-Integrated Circuit (communication bus)
 
-#### **HRS 06 – Structure and Materials**  
-- The device shall use biocompatible, medical-grade materials with moisture and corrosion protection to ensure safe, comfortable, and durable intraoral use.
+**IMU** - Inertial Measurement Unit
 
+**RH** - Relative Humidity
+
+**Bruxism** - Teeth grinding or clenching during sleep
+
+#### **Functionality**
+
+**HRS 01 – Core Microcontroller.** The system shall utilize a low-power SoC with integrated BLE for device pairing, data synchronization, and multiple interfaces (I2C) to connect with sensors and peripheral modules.
+
+**HRS 02 – Oral Pressure Sensor.** A high-sensitivity pressure sensor shall detect bite force and occlusion changes to identify bruxism events and record data when thresholds are exceeded. The sensor shall communicate with the microcontroller via the I2C bus.
+
+**HRS 03 – Oral Temperature and Humidity Sensor.** The system shall monitor intraoral temperature within 30°C–40°C and humidity within 70%–100% RH for health and comfort analysis. The sensor shall communicate with the microcontroller via the I2C bus.
+
+**HRS 04 – IMU Sensor.** A six-axis IMU shall track head movements and sleep posture, supporting sleep quality analysis and detection of abnormal behaviors. The sensor shall communicate with the microcontroller via the I2C bus.
+
+**HRS 05 – Power Management.** The system shall feature low-power design with a rechargeable battery for extended standby and overnight operation.
+
+**HRS 06 – Structure and Materials.** The device shall use biocompatible, medical-grade materials with moisture and corrosion resistance for safe, durable intraoral use.
 
 ### Software Requirements Specification
 
