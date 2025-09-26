@@ -190,7 +190,7 @@ The smart dental appliance software collects data from multiple onboard sensors 
 **SRS 01** – The system shall interface with the BMI270 IMU via the I²C bus to acquire 3-axis accelerometer and 3-axis gyroscope data, with a configurable sampling rate between 25 Hz and 200 Hz.  
 **SRS 02** – The system shall read the pressure sensor via I²C at a sampling rate of 50–200 Hz to detect bruxism-related pressure changes. It shall record peak force, duration, and event counts, and generate logs for bruxism event analysis.  
 **SRS 03** – The system shall access the temperature and humidity sensor via I²C with a configurable sampling rate between 0.1 Hz and 1 Hz, providing at least ±0.5 °C temperature accuracy and ±2 %RH humidity accuracy.  
-**SRS 04** – The system shall guarantee that real-time sensor data is displayed on the mobile application with an end-to-end latency of **≤ 1 second**.  
-**SRS 05** – The system shall provide offline data caching for at least **5 days** of usage when no wireless connection is available.  
+**SRS 04** – The system shall guarantee that real-time sensor data is displayed on the mobile application with an end-to-end latency of ≤ 1 second.  
+**SRS 05** – The system shall provide offline data caching for at least 5 days of usage when no wireless connection is available.  
 
 
