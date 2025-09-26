@@ -141,7 +141,7 @@ This section describes the security systems required for the smart dental brace 
 - The system shall utilize a low-power SoC with integrated Bluetooth Low Energy for device pairing, data synchronization, and multiple interfaces (I2C, SPI, UART) to connect with sensors and peripheral modules.
 
 #### **HRS 02 – Oral Pressure Sensor**  
-- The system shall include a high-sensitivity pressure sensor to detect bite force and occlusion changes inside the mouthguard, enabling the identification of bruxism events and triggering alerts or data recording when thresholds are exceeded.
+- The system shall include a high-sensitivity pressure sensor to detect bite force and occlusion changes inside the mouthguard, enabling the identification of bruxism events and data recording when thresholds are exceeded.
 
 #### **HRS 03 – Oral Temperature and Humidity Sensor**  
 - The system shall monitor intraoral temperature within 30°C–40°C and humidity within 70%–100% RH to provide accurate real-time data on oral environmental changes for health assessment and comfort analysis.
@@ -149,13 +149,10 @@ This section describes the security systems required for the smart dental brace 
 #### **HRS 04 – IMU Sensor**  
 - The system shall include a six-axis IMU to capture head movements and sleep posture changes, supporting sleep quality analysis and the detection of abnormal sleeping behaviors.
 
-#### **HRS 05 – Haptic Motor Controller**  
-- The system shall provide low-power tactile feedback via short vibration signals to alert the user, with adjustable intensity and duration for safe and effective feedback.
+#### **HRS 05 – Power Management**  
+- The system shall adopt a low-power design with a rechargeable battery to support extended standby time and continuous overnight operation.
 
-#### **HRS 06 – Power Management**  
-- The system shall adopt a low-power design with a rechargeable battery to support extended standby time and continuous overnight operation, featuring battery level monitoring and charging status indication.
-
-#### **HRS 07 – Structure and Materials**  
+#### **HRS 06 – Structure and Materials**  
 - The device shall use biocompatible, medical-grade materials with moisture and corrosion protection to ensure safe, comfortable, and durable intraoral use.
 
 
