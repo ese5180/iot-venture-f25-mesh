@@ -1,0 +1,72 @@
+/*
+ * Copyright (c) 2025 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+ */
+
+/*
+ * This file contains peripherals that are secure only in nRF7120
+ */
+
+spu00: spu@40000 {
+	compatible = "nordic,nrf-spu";
+	reg = <0x40000 0x1000>;
+	interrupts = <64 NRF_DEFAULT_IRQ_PRIORITY>;
+	status = "disabled";
+};
+
+kmu: kmu@49000 {
+	compatible = "nordic,nrf-kmu";
+	reg = <0x49000 0x1000>;
+	status = "disabled";
+};
+
+mram_controller: mram-controller@4e000 {
+	compatible = "nordic,nrf-mramc";
+	reg = <0x4e000 0x1000>;
+	#address-cells = <1>;
+	#size-cells = <1>;
+	interrupts = <78 NRF_DEFAULT_IRQ_PRIORITY>;
+
+	cpuapp_mram: mram@0 {
+		compatible = "soc-nv-flash";
+		reg = <0 DT_SIZE_K(3972)>;
+		erase-block-size = <4096>;
+		write-block-size = <4>;
+	};
+
+	cpuflpr_mram: mram@3e1000 {
+		compatible = "soc-nv-flash";
+		reg = <0x3e1000 DT_SIZE_K(116)>;
+		erase-block-size = <4096>;
+		write-block-size = <4>;
+	};
+};
+
+spu10: spu@80000 {
+	compatible = "nordic,nrf-spu";
+	reg = <0x80000 0x1000>;
+	interrupts = <128 NRF_DEFAULT_IRQ_PRIORITY>;
+	status = "disabled";
+};
+
+spu20: spu@c0000 {
+	compatible = "nordic,nrf-spu";
+	reg = <0xc0000 0x1000>;
+	interrupts = <192 NRF_DEFAULT_IRQ_PRIORITY>;
+	status = "disabled";
+};
+
+spu30: spu@100000 {
+	compatible = "nordic,nrf-spu";
+	reg = <0x100000 0x1000>;
+	interrupts = <256 NRF_DEFAULT_IRQ_PRIORITY>;
+	status = "disabled";
+};
+
+wdt30: wdt@108000 {
+	compatible = "nordic,nrf-wdt";
+	reg = <0x108000 0x1000>;
+	interrupts = <264 NRF_DEFAULT_IRQ_PRIORITY>;
+	status = "disabled";
+};
