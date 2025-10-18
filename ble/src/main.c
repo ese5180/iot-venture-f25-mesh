@@ -12,79 +12,93 @@
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/logging/log.h>
 
-/* The devicetree node identifier for the "led0" alias. */
-// #define LED0_NODE DT_ALIAS(led0)
+#include "bme380.h"
 
-// static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+#include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/bluetooth/gatt.h>
+#include <zephyr/sys/byteorder.h>
+
 
 LOG_MODULE_REGISTER(bme_app, LOG_LEVEL_INF);
 
-#define MYBME_NODE DT_NODELABEL(mybme)
-static const struct i2c_dt_spec bme = I2C_DT_SPEC_GET(MYBME_NODE);
+#define BT_UUID_SVC_VAL  BT_UUID_128_ENCODE(0x12345678,0x1234,0x1234,0x1234,0x1234567890ab)
+#define BT_UUID_TMP_VAL  BT_UUID_128_ENCODE(0xabcdef01,0x1234,0x1234,0x1234,0x1234567890ab)
 
-#define REG_CTRL_MEAS 0xF4
-#define REG_TEMP_MSB 0xFA
-#define REG_CALIB_T1 0x88
+static struct bt_uuid_128 svc_uuid  = BT_UUID_INIT_128(BT_UUID_SVC_VAL);
+static struct bt_uuid_128 temp_uuid = BT_UUID_INIT_128(BT_UUID_TMP_VAL);
 
-static uint16_t dig_T1;
-static int16_t  dig_T2, dig_T3;
+static uint8_t notify_enabled;
 
-static int read_temp_calib(void){
-	uint8_t buf[6];
-	int rc = i2c_burst_read_dt(&bme, REG_CALIB_T1, buf, sizeof(buf));
-	if(rc) return rc;
-
-    dig_T1 = (uint16_t)buf[0] | ((uint16_t)buf[1] << 8);
-    dig_T2 = (int16_t)((uint16_t)buf[2] | ((uint16_t)buf[3] << 8));
-    dig_T3 = (int16_t)((uint16_t)buf[4] | ((uint16_t)buf[5] << 8));
-    return 0;
+static void ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value) {
+    notify_enabled = (value == BT_GATT_CCC_NOTIFY);
 }
 
-static int set_ctrl_meas(void)
+BT_GATT_SERVICE_DEFINE(bme_svc,
+    BT_GATT_PRIMARY_SERVICE(&svc_uuid),
+    BT_GATT_CHARACTERISTIC(&temp_uuid.uuid,
+        BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
+    BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+);
+
+static void ble_start(void)
 {
-    uint8_t tx[2] = { REG_CTRL_MEAS, 0x27 };
-    return i2c_write_dt(&bme, tx, sizeof(tx));
+    int err = bt_enable(NULL);
+    if (err) { LOG_ERR("bt_enable failed (%d)", err); return; }
+    LOG_INF("Bluetooth enabled");
+
+    const struct bt_data ad[] = {
+        BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
+        BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_SVC_VAL),
+        BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME,
+                sizeof(CONFIG_BT_DEVICE_NAME)-1),
+    };
+
+    static const struct bt_le_adv_param adv_param = {
+        .options = BT_LE_ADV_OPT_CONNECTABLE | BT_LE_ADV_OPT_USE_NAME,
+        .interval_min = BT_GAP_ADV_FAST_INT_MIN_2,
+        .interval_max = BT_GAP_ADV_FAST_INT_MAX_2,
+    };
+
+    err = bt_le_adv_start(&adv_param, ad, ARRAY_SIZE(ad), NULL, 0);
+    if (err) {
+        LOG_ERR("Advertising start failed (%d)", err);
+    } else {
+        LOG_INF("Advertising started");
+    }
 }
 
-static double compensate_temp(int32_t adc_T)
-{
-    double var1 = ((adc_T / 16384.0) - (dig_T1 / 1024.0)) * dig_T2;
-    double var2 = (((adc_T / 131072.0) - (dig_T1 / 8192.0)) *
-                   ((adc_T / 131072.0) - (dig_T1 / 8192.0))) * dig_T3;
-    double t_fine = var1 + var2;
-    return t_fine / 5120.0;
-}
 
 int main(void)
 {
-    if (!device_is_ready(bme.bus)) {
-        LOG_ERR("I2C bus not ready");
-        return;
-    }
+    int rc;
 
-    if (read_temp_calib()) {
-        LOG_ERR("Read calib failed");
-        return;
-    }
+    rc = bme380_probe();
+    if (rc) { LOG_ERR("I2C/BME not ready (%d)", rc); return rc; }
 
-    if (set_ctrl_meas()) {
-        LOG_ERR("CTRL_MEAS write failed");
-        return;
-    }
+    rc = read_temp_calib();
+    if (rc) { LOG_ERR("calib read fail (%d)", rc); return rc; }
+
+    rc = set_ctrl_meas();
+    if (rc) { LOG_ERR("ctrl_meas fail (%d)", rc); return rc; }
+
+    ble_start();
 
 	while(1){
-		uint8_t raw[3];
-		int rc = i2c_burst_read_dt(&bme, REG_TEMP_MSB, raw, sizeof(raw));
-		if(rc){
-			LOG_ERR("Temp read failed (%d)", rc);
-		}
-		else{
-            int32_t adc_T = ((int32_t)raw[0] << 12) |
-                            ((int32_t)raw[1] << 4)  |
-                            ((int32_t)raw[2] >> 4);
-            double temp_c = compensate_temp(adc_T);
+        double temp_c;
+        uint8_t buf[2];
+        rc = bme380_read_temp_celsius(&temp_c);
+        if(notify_enabled){
+            int16_t t_x100 = (int16_t)((float)temp_c * 100.0f);
+            sys_put_le16((uint16_t)t_x100, buf);
+            bt_gatt_notify(NULL, &bme_svc.attrs[1], buf, sizeof(buf));
             LOG_INF("T = %.2f C", temp_c);
-		}
+        }
+        // if (rc) {
+        //     LOG_ERR("Temp read failed (%d)", rc);
+        // } else {
+        //     LOG_INF("T = %.2f C", temp_c);
+        // }
 		k_msleep(2000);
 	}
+    return 0;
 }
