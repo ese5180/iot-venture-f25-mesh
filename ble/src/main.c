@@ -12,26 +12,26 @@
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/logging/log.h>
 
-#include "bme380.h"
-
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gatt.h>
 #include <zephyr/sys/byteorder.h>
 
+#include "bme380.h"
 
 LOG_MODULE_REGISTER(bme_app, LOG_LEVEL_INF);
 
-#define BT_UUID_SVC_VAL  BT_UUID_128_ENCODE(0x12345678,0x1234,0x1234,0x1234,0x1234567890ab)
+#define BT_UUID_SVC_VAL  BT_UUID_128_ENCODE(0x12345678,0x1234,0x1234,0x1234,0x1234567890ab)//8-4-4-4-12 to get 128 bit
 #define BT_UUID_TMP_VAL  BT_UUID_128_ENCODE(0xabcdef01,0x1234,0x1234,0x1234,0x1234567890ab)
 
 static struct bt_uuid_128 svc_uuid  = BT_UUID_INIT_128(BT_UUID_SVC_VAL);
-static struct bt_uuid_128 temp_uuid = BT_UUID_INIT_128(BT_UUID_TMP_VAL);
+static struct bt_uuid_128 temp_uuid = BT_UUID_INIT_128(BT_UUID_TMP_VAL);// uuid + val[16]
 
 static uint8_t notify_enabled;
 
 static void ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value) {
     notify_enabled = (value == BT_GATT_CCC_NOTIFY);
 }
+
 
 BT_GATT_SERVICE_DEFINE(bme_svc,
     BT_GATT_PRIMARY_SERVICE(&svc_uuid),
@@ -45,7 +45,7 @@ static void ble_start(void)
     int err = bt_enable(NULL);
     if (err) { LOG_ERR("bt_enable failed (%d)", err); return; }
     LOG_INF("Bluetooth enabled");
-
+    //BLE Mode and can be found
     const struct bt_data ad[] = {
         BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
         BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_SVC_VAL),
@@ -77,12 +77,9 @@ int main(void)
 
 	while(1){
         double temp_c;
-        uint8_t buf[2];
         rc = bme380_read_temp_celsius(&temp_c);
+        char str[8];
         if(notify_enabled){
-            // int16_t t_x100 = (int16_t)((float)temp_c * 100.0f);
-            // sys_put_le16((uint16_t)t_x100, buf);
-            char str[8];
             snprintf(str, sizeof(str), "%.2f", temp_c);
             bt_gatt_notify(NULL, &bme_svc.attrs[2], str, sizeof(str)); 
             LOG_INF("T = %.2f C", temp_c);
