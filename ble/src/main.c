@@ -49,17 +49,9 @@ static void ble_start(void)
     const struct bt_data ad[] = {
         BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
         BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_SVC_VAL),
-        BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME,
-                sizeof(CONFIG_BT_DEVICE_NAME)-1),
     };
 
-    static const struct bt_le_adv_param adv_param = {
-        .options = BT_LE_ADV_OPT_CONNECTABLE | BT_LE_ADV_OPT_USE_NAME,
-        .interval_min = BT_GAP_ADV_FAST_INT_MIN_2,
-        .interval_max = BT_GAP_ADV_FAST_INT_MAX_2,
-    };
-
-    err = bt_le_adv_start(&adv_param, ad, ARRAY_SIZE(ad), NULL, 0);
+    err = bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
     if (err) {
         LOG_ERR("Advertising start failed (%d)", err);
     } else {
@@ -88,16 +80,13 @@ int main(void)
         uint8_t buf[2];
         rc = bme380_read_temp_celsius(&temp_c);
         if(notify_enabled){
-            int16_t t_x100 = (int16_t)((float)temp_c * 100.0f);
-            sys_put_le16((uint16_t)t_x100, buf);
-            bt_gatt_notify(NULL, &bme_svc.attrs[1], buf, sizeof(buf));
+            // int16_t t_x100 = (int16_t)((float)temp_c * 100.0f);
+            // sys_put_le16((uint16_t)t_x100, buf);
+            char str[8];
+            snprintf(str, sizeof(str), "%.2f", temp_c);
+            bt_gatt_notify(NULL, &bme_svc.attrs[2], str, sizeof(str)); 
             LOG_INF("T = %.2f C", temp_c);
         }
-        // if (rc) {
-        //     LOG_ERR("Temp read failed (%d)", rc);
-        // } else {
-        //     LOG_INF("T = %.2f C", temp_c);
-        // }
 		k_msleep(2000);
 	}
     return 0;
