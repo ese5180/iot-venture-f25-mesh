@@ -21,13 +21,18 @@
 LOG_MODULE_REGISTER(bme_app, LOG_LEVEL_INF);
 
 #define BT_UUID_SVC_VAL  BT_UUID_128_ENCODE(0x12345678,0x1234,0x1234,0x1234,0x1234567890ab)//8-4-4-4-12 to get 128 bit
-#define BT_UUID_TMP_VAL  BT_UUID_128_ENCODE(0xabcdef01,0x1234,0x1234,0x1234,0x1234567890ab)
+#define BT_UUID_TMP_VAL  BT_UUID_128_ENCODE(0xabcdef01,0x1234,0x1234,0x1234,0x1234567890ab)//Temperature UUID
+// #define BT_UUID_PRESSURE_VAL  BT_UUID_128_ENCODE(0xabcdef11,0x1234,0x1234,0x1234,0x1234567890ab)//Pressure UUID
+// #define BT_UUID_HUMIDITY_VAL  BT_UUID_128_ENCODE(0xabcdef21,0x1234,0x1234,0x1234,0x1234567890ab)//Humidity UUID
 
-static struct bt_uuid_128 svc_uuid  = BT_UUID_INIT_128(BT_UUID_SVC_VAL);
-static struct bt_uuid_128 temp_uuid = BT_UUID_INIT_128(BT_UUID_TMP_VAL);// uuid + val[16]
+static struct bt_uuid_128 svc_uuid  = BT_UUID_INIT_128(BT_UUID_SVC_VAL);// 16 Byte
+static struct bt_uuid_128 temp_uuid = BT_UUID_INIT_128(BT_UUID_TMP_VAL);
+// static struct bt_uuid_128 pressure_uuid = BT_UUID_INIT_128(BT_UUID_PRESSURE_VAL);
+// static struct bt_uuid_128 humidity_uuid = BT_UUID_INIT_128(BT_UUID_HUMIDITY_VAL);
 
 static uint8_t notify_enabled;
 
+//0100 means notify enable
 static void ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value) {
     notify_enabled = (value == BT_GATT_CCC_NOTIFY);
 }
@@ -35,9 +40,18 @@ static void ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value) {
 
 BT_GATT_SERVICE_DEFINE(bme_svc,
     BT_GATT_PRIMARY_SERVICE(&svc_uuid),
+    /**Temperature */
     BT_GATT_CHARACTERISTIC(&temp_uuid.uuid,
         BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
     BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+    // /**Pressure */
+    // BT_GATT_CHARACTERISTIC(&pressure_uuid.uuid,
+    //     BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
+    // BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+    // /**Humidity */
+    // BT_GATT_CHARACTERISTIC(&humidity_uuid.uuid,
+    //     BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
+    // BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
 );
 
 static void ble_start(void)
@@ -45,7 +59,7 @@ static void ble_start(void)
     int err = bt_enable(NULL);
     if (err) { LOG_ERR("bt_enable failed (%d)", err); return; }
     LOG_INF("Bluetooth enabled");
-    //BLE Mode and can be found
+    //It can be found and is set to be BLE Mode 
     const struct bt_data ad[] = {
         BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
         BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_SVC_VAL),
@@ -81,7 +95,7 @@ int main(void)
         char str[8];
         if(notify_enabled){
             snprintf(str, sizeof(str), "%.2f", temp_c);
-            bt_gatt_notify(NULL, &bme_svc.attrs[2], str, sizeof(str)); 
+            bt_gatt_notify(NULL, &bme_svc.attrs[2], str, sizeof(str)); //temperature->attrs[2], pressure->attrs[5], humidity->attrs[8]
             LOG_INF("T = %.2f C", temp_c);
         }
 		k_msleep(2000);
