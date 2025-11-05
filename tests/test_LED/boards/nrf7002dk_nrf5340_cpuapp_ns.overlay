@@ -1,6 +1,0 @@
-/ {
-    aliases {
-        led5180 = &led1;
-        button5180 = &button1;
-    };
-};

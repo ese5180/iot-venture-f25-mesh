@@ -1,5 +1,0 @@
-board:
-  name: nrf52840gmouse
-  vendor: nordic
-  socs:
-    - name: nrf52840
