@@ -193,4 +193,594 @@ The smart dental appliance software collects data from multiple onboard sensors 
 **SRS 04** – The system shall guarantee that real-time sensor data is displayed on the mobile application with an end-to-end latency of ≤ 1 second.  
 **SRS 05** – The system shall provide offline data caching for at least 5 days of usage when no wireless connection is available.  
 
+# Assignment 3.5: Secure Firmware Updates - Smart Retainer Project
 
+## Table of Contents
+- Overview
+- Part 3.5.1: Bootloading Process Description
+- Part 3.5.2: Implementation
+- Part 3.5.3: Demonstration
+- Build and Flash Instructions
+- Testing FOTA Updates
+- Troubleshooting
+
+## Overview
+
+This section describes the implementation of Secure Firmware Over-The-Air (FOTA) updates for the Smart Retainer IoT device using:
+
+- **Hardware:** nRF7002 DK (nRF5340 SoC)
+- **Wireless:** Bluetooth Low Energy (BLE)
+- **Bootloader:** MCUboot with ECDSA-P256 signing
+- **External Storage:** MX25R64 QSPI NOR Flash (8MB)
+
+## Part 3.5.1: Bootloading Process Description
+
+### Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ nRF5340 Flash Memory Map                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ 0x00000000 ┌──────────────────────────────────────────┐         │
+│            │ MCUboot Bootloader                       │         │
+│            │ Size: ~48 KB                             │         │
+│            │ - Signature verification                 │         │
+│            │ - Image validation                       │         │
+│ 0x0000C000 ├──────────────────────────────────────────┤         │
+│            │ Primary Slot (Slot 0)                    │         │
+│            │ Size: ~460 KB                            │         │
+│            │ - Active Application Code                │         │
+│            │ - Smart Retainer Firmware                │         │
+│ 0x00080000 └──────────────────────────────────────────┘         │
+│            ▼                                                     │
+│            Internal Flash End                                   │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ External Flash (MX25R64 - 8MB)                                  │
+├─────────────────────────────────────────────────────────────────┤
+│ 0x00000000 ┌──────────────────────────────────────────┐         │
+│            │ Secondary Slot (Slot 1)                  │         │
+│            │ Size: ~460 KB                            │         │
+│            │ - Firmware Update Storage                │         │
+│            │ - Downloaded via BLE                     │         │
+│ 0x00074000 ├──────────────────────────────────────────┤         │
+│            │ Available Space                          │         │
+│            │ ~7.5 MB for future use                   │         │
+│            │ (Logs, calibration data, etc.)           │         │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Boot Flow Diagram
+
+```
+Power On / Reset
+      │
+      ▼
+┌─────────────────┐
+│ MCUboot Starts  │
+│ @ 0x00000000    │
+└────────┬────────┘
+         │
+         ▼
+    ┌────────────────────┐
+    │ Check Slot 1       │
+    │ (External Flash)   │
+    │ for New Image?     │
+    └─────┬──────────────┘
+          │
+    Yes ──┼── No
+          │  │
+          │  └─────────────────┐
+          │                    │
+          ▼                    │
+    ┌──────────────────┐       │
+    │ Verify Signature │       │
+    │ (ECDSA-P256)     │       │
+    └────┬─────────────┘       │
+         │                     │
+    Valid│ Invalid             │
+         │  │                  │
+         │  ▼                  │
+         │  [Reject]           │
+         │                     │
+         ▼                     │
+    ┌──────────────────┐       │
+    │ Swap Images      │       │
+    │ Slot1 → Slot0    │       │
+    └────┬─────────────┘       │
+         │                     │
+    ─────┼─────────────────────┘
+         │
+         ▼
+    ┌──────────────────┐
+    │ Validate Slot 0  │
+    │ (Primary Image)  │
+    └────┬─────────────┘
+         │
+    Valid│ Invalid
+         │  │
+         │  ▼
+         │  [Boot Failed]
+         │
+         ▼
+    ┌──────────────────┐
+    │ Boot into        │
+    │ Application      │
+    │ @ 0x0000C000     │
+    └────────┬─────────┘
+             │
+             ▼
+    ┌──────────────────┐
+    │ Smart Retainer   │
+    │ Application      │
+    │ - BLE Service    │
+    │ - IMU Monitoring │
+    │ - FOTA Ready     │
+    └──────────────────┘
+```
+
+### Questions Answered
+
+#### 1. How large is your bootloader?
+
+**~48 KB (49,152 bytes)**
+
+The MCUboot bootloader occupies approximately 48 KB of flash memory, from address 0x00000000 to 0x0000C000. This includes:
+
+- Boot logic and image management
+- ECDSA-P256 signature verification code
+- QSPI driver for external flash access
+- Minimal logging infrastructure
+
+#### 2. How large is your existing application code?
+
+**~460 KB (470,016 bytes)**
+
+The Smart Retainer application (Primary Slot) occupies approximately 460 KB, from 0x0000C000 to 0x00080000. This includes:
+
+- Zephyr RTOS kernel
+- BLE stack with custom IMU service
+- BNO055 IMU driver with quaternion processing
+- MCUmgr protocol for FOTA
+- Orientation offset calibration system
+- Application logic
+
+**Note:** With external flash, we can support much larger applications (up to 7+ MB if needed).
+
+#### 3. Does the bootloader or application code handle the firmware image download?
+
+**The APPLICATION CODE handles the firmware download.**
+
+**Reasoning:**
+
+**MCUboot (bootloader)** is responsible for:
+- Verifying signatures
+- Swapping images between slots
+- Booting into the validated application
+
+**Application (Smart Retainer firmware)** is responsible for:
+- Receiving firmware updates over BLE
+- Writing the new image to Secondary Slot (external flash)
+- Triggering reboot for MCUboot to perform the swap
+
+This separation of concerns means:
+- The bootloader stays minimal and secure
+- The application can use its full networking stack (BLE)
+- Updates happen while the device is operational
+
+#### 4. What wireless communication is used to download images?
+
+**Bluetooth Low Energy (BLE) using MCUmgr SMP Protocol**
+
+**Protocol Stack:**
+
+```
+┌──────────────────────────────────────┐
+│ Mobile App / nRF Connect / mcumgr    │ ← User Interface
+├──────────────────────────────────────┤
+│ SMP (Simple Management Protocol)     │ ← MCUmgr Protocol
+├──────────────────────────────────────┤
+│ GATT (Generic Attribute Profile)     │ ← BLE Service Layer
+├──────────────────────────────────────┤
+│ BLE L2CAP (Logical Link Control)     │ ← BLE Transport
+├──────────────────────────────────────┤
+│ BLE Radio (2.4 GHz)                  │ ← Physical Layer
+└──────────────────────────────────────┘
+```
+
+**Why BLE was chosen:**
+
+1. **Already integrated:** The Smart Retainer uses BLE for IMU data streaming
+2. **Low power:** BLE is energy-efficient for battery-operated wearables
+3. **Short range:** Suitable for user-device interactions (1-10 meters)
+4. **Mobile app friendly:** Easy to integrate with iOS/Android apps
+5. **MCUmgr support:** Nordic's nRF Connect SDK has excellent BLE MCUmgr integration
+
+**Alternative protocols considered:**
+
+- **Wi-Fi:** Not suitable - device doesn't have Wi-Fi (only BLE on nRF5340)
+- **LoRa:** Not suitable - extremely slow data rate (would take hours to download 460KB)
+- **Cellular:** Not suitable - no cellular modem, higher power consumption
+
+#### 5. Where are the downloaded firmware images stored?
+
+**External QSPI NOR Flash (MX25R64) - Secondary Slot**
+
+**Storage Details:**
+
+- **Flash Chip:** Macronix MX25R64 (64 Mbit / 8 MB)
+- **Interface:** QSPI (Quad-SPI) for high-speed access
+- **Address Range:** 0x00000000 - 0x00074000 for Secondary Slot (~460 KB)
+- **Remaining Space:** ~7.5 MB available for logs, calibration profiles, etc.
+
+**Why external flash:**
+
+1. **Limited internal flash:** nRF5340 has only 1MB total flash
+   - Without external flash, we'd need to sacrifice ~460KB for secondary slot
+   - This would severely limit application size
+2. **Non-volatile:** Firmware survives power cycles
+3. **Fast access:** QSPI provides sufficient speed for image verification
+4. **Low cost:** MX25R64 is inexpensive (~$0.50 in volume)
+
+**Access Pattern:**
+
+```
+Application receives BLE packets
+         ↓
+MCUmgr processes chunks
+         ↓
+Writes to External Flash via QSPI
+         ↓
+Full image stored in Slot 1
+         ↓
+Application triggers reboot
+         ↓
+MCUboot verifies & swaps
+```
+
+#### 6. What features have you enabled to handle firmware update failures?
+
+##### a) Signature Verification (ECDSA-P256)
+
+- **Feature:** All firmware images must be cryptographically signed
+- **Failure Mode:** Invalid signature → Image rejected, boot continues with old firmware
+- **Configuration:** `SB_CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256=y`
+
+##### b) Image Validation
+
+- **Feature:** MCUboot validates image header, checksums, and magic numbers
+- **Failure Mode:** Corrupted image → Rejected before swap
+- **Configuration:** `CONFIG_BOOT_VALIDATE_SLOT0=y`
+
+##### c) Swap Revert on Boot Failure
+
+- **Feature:** If new firmware fails to boot, MCUboot reverts to previous version
+- **Mechanism:**
+  - New image boots with "test" flag
+  - Application must call `img_mgmt_state_confirm()` to mark as permanent
+  - If device resets before confirmation, MCUboot reverts
+- **Configuration:** Enabled by default in dual-slot mode
+
+##### d) Slot 0 Validation on Every Boot
+
+- **Feature:** Primary slot is validated before each boot
+- **Failure Mode:** If Slot 0 becomes corrupted, device enters safe mode
+- **Configuration:** `CONFIG_BOOT_VALIDATE_SLOT0=y`
+
+##### e) Corrupted Download Detection
+
+- **Feature:** MCUmgr uses checksums for each packet
+- **Failure Mode:** Corrupted packet → Retransmission requested
+- **Configuration:** Built into MCUmgr protocol
+
+##### f) Optional: Serial Recovery Mode (Extra Credit)
+
+- **Feature:** UART-based firmware recovery if all else fails
+- **Activation:** Hold button during boot
+- **Configuration:** Commented out in `sysbuild/mcuboot.conf`
+
+To enable:
+
+```
+CONFIG_MCUBOOT_SERIAL=y
+CONFIG_BOOT_SERIAL_UART=y
+CONFIG_UART_CONSOLE=n
+CONFIG_MCUBOOT_INDICATION_LED=y
+```
+
+##### g) Watchdog Protection (Optional)
+
+- **Feature:** Can enable watchdog to detect boot hangs
+- **Failure Mode:** If boot takes too long, watchdog resets device
+- **Configuration:** `CONFIG_BOOT_WATCHDOG_FEED=y` (commented out)
+
+##### Summary Table:
+
+| Failure Scenario | Protection Mechanism | Result |
+|-----------------|---------------------|---------|
+| Invalid signature | ECDSA verification | Update rejected, old firmware runs |
+| Corrupted download | Packet checksums | Retransmission requested |
+| Corrupted image file | Header validation | Update rejected before swap |
+| New firmware crashes | Swap revert | Automatic rollback to old version |
+| Slot 0 corruption | Boot validation | Device enters safe mode / serial recovery |
+| Complete brick | Serial recovery (UART) | Manual recovery via USB-UART |
+
+## Part 3.5.2: Implementation
+
+### File Structure
+
+```
+smart-retainer-fota/
+├── prj.conf                              # Main application config (with FOTA)
+├── sysbuild.conf                         # Build system config (MCUboot settings)
+├── nrf7002dk_nrf5340_cpuapp.overlay      # Device tree overlay (external flash)
+├── mcuboot_private_key.pem               # Private key for signing (GENERATE THIS!)
+├── sysbuild/
+│   ├── mcuboot.conf                      # MCUboot-specific config
+│   └── mcuboot/
+│       └── boards/
+│           └── nrf7002dk_nrf5340_cpuapp.overlay  # MCUboot overlay
+├── src/
+│   ├── main.c
+│   ├── ble_imu_service.c
+│   ├── bno055_driver.c
+│   └── orientation_offset.c
+└── README.md                             # This file
+```
+
+### Key Configuration Changes
+
+#### 1. prj.conf - Application Configuration
+
+Added:
+
+- **Flash subsystem:** `CONFIG_FLASH=y`, `CONFIG_FLASH_MAP=y`, `CONFIG_STREAM_FLASH=y`
+- **Image manager:** `CONFIG_IMG_MANAGER=y`
+- **External flash:** `CONFIG_NORDIC_QSPI_NOR=y`
+- **MCUmgr:** `CONFIG_MCUMGR=y`, `CONFIG_MCUMGR_GRP_IMG=y`
+- **BLE transport:** `CONFIG_MCUMGR_TRANSPORT_BT=y`
+- **Dependencies:** `CONFIG_NET_BUF=y`, `CONFIG_ZCBOR=y`, `CONFIG_CRC=y`
+
+#### 2. sysbuild.conf - Build System Configuration
+
+Added:
+
+- **Dual-slot mode:** `SB_CONFIG_MCUBOOT_MODE_SINGLE_APP=n`
+- **Signature key:** `SB_CONFIG_BOOT_SIGNATURE_KEY_FILE="${APP_DIR}/mcuboot_private_key.pem"`
+- **Signature type:** `SB_CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256=y`
+- **External flash secondary:** `SB_CONFIG_PM_EXTERNAL_FLASH_MCUBOOT_SECONDARY=y`
+
+#### 3. Device Tree Overlays
+
+Added:
+
+- **External flash node:** `&mx25r64 { status = "okay"; };`
+- **Partition manager config:** `nordic,pm-ext-flash = &mx25r64;`
+- Both application and MCUboot overlays configured
+
+## Part 3.5.3: Testing FOTA Updates
+
+### Method 1: Using nRF Connect Mobile App
+
+#### Prepare Update Package
+
+1. **Make a trivial change to code** (so you can see it worked)
+
+```c
+// In main.c, change version string
+#define FIRMWARE_VERSION "v1.0.1"  // Was v1.0.0
+
+// Or add a log message
+LOG_INF("🎉 FIRMWARE UPDATED TO v1.0.1!");
+```
+
+2. **Rebuild**
+
+```bash
+west build -b nrf7002dk/nrf5340/cpuapp --sysbuild
+```
+
+3. **Find update file**
+
+```bash
+# The update package is here:
+build/zephyr/app_update.bin
+
+# Or signed binary:
+build/zephyr/zephyr.signed.bin
+```
+
+4. **Transfer to phone**
+
+```bash
+# Copy to your phone via:
+# - AirDrop (iOS)
+# - Google Drive
+# - Email to yourself
+# - USB cable
+```
+
+#### Perform FOTA Update
+
+1. **Install nRF Connect app**
+   - iOS: https://apps.apple.com/app/nrf-connect-mobile/id1054362403
+   - Android: https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp
+
+2. **Connect to device**
+   - Open nRF Connect
+   - Scan for devices
+   - Find "SmartRetainer"
+   - Tap "CONNECT"
+
+3. **Enter DFU mode**
+   - Tap three-dot menu (⋮)
+   - Select "Device Firmware Update (DFU)"
+
+4. **Upload firmware**
+   - Tap "Select file"
+   - Choose `app_update.bin` from step 3-4 above
+   - Tap "START"
+
+5. **Monitor progress**
+
+```
+Uploading: 0%
+Uploading: 25%
+Uploading: 50%
+Uploading: 75%
+Uploading: 100%
+Validating...
+Rebooting...
+```
+
+6. **Verify update**
+   - Device will reboot automatically
+   - Reconnect to see new version
+   - Check logs for your changes
+
+## Troubleshooting
+
+### Issue: "Failed to generate signed image"
+
+**Cause:** Missing or invalid private key
+
+**Solution:**
+
+```bash
+# Generate key
+imgtool keygen -k mcuboot_private_key.pem -t ecdsa-p256
+
+# Verify it exists
+ls -lh mcuboot_private_key.pem
+
+# Check sysbuild.conf points to correct path
+grep SIGNATURE_KEY_FILE sysbuild.conf
+```
+
+### Issue: "External flash not found"
+
+**Cause:** QSPI driver not enabled or hardware issue
+
+**Solution:**
+
+```bash
+# Check overlay includes external flash
+grep mx25r64 nrf7002dk_nrf5340_cpuapp.overlay
+
+# Check config enables QSPI
+grep NORDIC_QSPI prj.conf
+
+# Verify hardware connections (QSPI is on-board for nRF7002 DK)
+```
+
+### Issue: "Image upload fails at X%"
+
+**Cause:** BLE buffer overflow or connection issues
+
+**Solution:**
+
+```c
+// In prj.conf, increase buffers:
+CONFIG_BT_BUF_ACL_TX_COUNT=8
+CONFIG_BT_BUF_ACL_RX_COUNT=8
+CONFIG_MCUMGR_BUF_COUNT=4
+CONFIG_MCUMGR_TRANSPORT_NETBUF_COUNT=4
+
+// Also ensure heap is large enough:
+CONFIG_HEAP_MEM_POOL_SIZE=32768
+```
+
+### Issue: "Device reboots but old firmware still running"
+
+**Cause:** Swap didn't occur (signature validation failed?)
+
+**Solution:**
+
+```bash
+# Check MCUboot logs for signature errors
+# Verify key used for signing matches key in bootloader
+# Re-flash everything to ensure consistency
+west flash --erase
+```
+
+### Issue: "Bootloader doesn't start"
+
+**Cause:** Corrupted flash or missing bootloader
+
+**Solution:**
+
+```bash
+# Erase everything and reflash
+nrfjprog --eraseall
+west flash
+```
+
+### Issue: "Out of memory (ENOMEM) during upload"
+
+**Cause:** Insufficient heap for FOTA buffers
+
+**Solution:**
+
+```c
+// In prj.conf:
+CONFIG_HEAP_MEM_POOL_SIZE=65536  // Increase to 64KB
+CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=8192
+CONFIG_MAIN_STACK_SIZE=8192
+```
+
+## Security Considerations
+
+### Key Management
+
+- **Private key** (`mcuboot_private_key.pem`) must be kept secret
+- In production:
+  - Use Hardware Security Module (HSM)
+  - Implement key rotation
+  - Use separate keys for dev/prod
+
+### Signature Verification
+
+- ECDSA-P256 provides 128-bit security
+- All images verified before boot
+- Invalid signatures result in boot failure
+
+### Secure Boot Chain
+
+Hardware → MCUboot (signed) → Application (signed) → User Code
+
+### Rollback Protection
+
+- Firmware version downgrade attacks prevented
+- Security version counter in image header
+- Device can be configured to reject older versions
+
+### Encrypted Images (Not Implemented)
+
+- MCUboot supports AES-encrypted images
+- Prevents firmware extraction
+- Requires additional configuration
+
+## Performance Metrics
+
+### FOTA Update Time
+
+- **Image Size:** ~460 KB
+- **BLE Transfer Speed:** ~10-15 KB/s
+- **Upload Time:** ~30-45 seconds
+- **Verification Time:** ~2-3 seconds
+- **Swap Time:** ~5-8 seconds
+- **Total Time:** ~40-60 seconds
+
+### Power Consumption During FOTA
+
+- **Idle:** ~3 mA
+- **BLE active:** ~8-12 mA
+- **Flash write:** ~15-20 mA
+- **Average during FOTA:** ~12-15 mA
+
+### Flash Wear
+
+- **QSPI flash endurance:** 100,000 cycles
+- **Typical FOTA frequency:** Monthly
+- **Expected lifetime:** >8,000 years
