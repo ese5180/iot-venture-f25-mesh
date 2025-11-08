@@ -35,14 +35,53 @@
     };
 };
 
-/* STEP 2.1 - Add external flash to application */
-&mx25r64 {
+/*
+ * Device Tree Overlay for Dual SEN0209 Vibration Sensors
+ * 
+ * Configures two ADC channels:
+ * - Channel 0: P0.04 (AIN0) for Sensor 1
+ * - Channel 1: P0.05 (AIN1) for Sensor 2
+ */
+
+&adc {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* ADC Channel 0 - P0.04 (AIN0) - Sensor 1 */
+	channel@0 {
+		reg = <0>;
+		zephyr,gain = "ADC_GAIN_1_6";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <10>;
+		zephyr,input-positive = <NRF_SAADC_AIN0>; /* P0.04 */
+		zephyr,resolution = <12>;
+	};
+
+	/* ADC Channel 1 - P0.05 (AIN1) - Sensor 2 */
+	channel@1 {
+		reg = <1>;
+		zephyr,gain = "ADC_GAIN_1_6";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <10>;
+		zephyr,input-positive = <NRF_SAADC_AIN1>; /* P0.05 */
+		zephyr,resolution = <12>;
+	};
+};
+
+/* Ensure GPIO is enabled */
+&gpio0 {
 	status = "okay";
 };
 
-/ {
-	chosen {
-		nordic,pm-ext-flash = &mx25r64;
-	};
-};
+/* STEP 2.1 - Add external flash to application */
+// &mx25r64 {
+// 	status = "okay";
+// };
+
+// / {
+// 	chosen {
+// 		nordic,pm-ext-flash = &mx25r64;
+// 	};
+// };
 

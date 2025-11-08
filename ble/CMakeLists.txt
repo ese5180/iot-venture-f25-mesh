@@ -7,9 +7,11 @@ project(ble)
 target_sources(app PRIVATE 
     src/main.c
     BME380/bme380.c
+    sen0209/sen0209.c
 )
 
 target_include_directories(app PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/BME380
+  ${CMAKE_CURRENT_LIST_DIR}/sen0209
 )
