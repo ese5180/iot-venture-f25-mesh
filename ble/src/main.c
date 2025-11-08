@@ -23,12 +23,12 @@ LOG_MODULE_REGISTER(bme_app, LOG_LEVEL_INF);
 #define BT_UUID_SVC_VAL  BT_UUID_128_ENCODE(0x12345678,0x1234,0x1234,0x1234,0x1234567890ab)//8-4-4-4-12 to get 128 bit
 #define BT_UUID_TMP_VAL  BT_UUID_128_ENCODE(0xabcdef01,0x1234,0x1234,0x1234,0x1234567890ab)//Temperature UUID
 // #define BT_UUID_PRESSURE_VAL  BT_UUID_128_ENCODE(0xabcdef11,0x1234,0x1234,0x1234,0x1234567890ab)//Pressure UUID
-// #define BT_UUID_HUMIDITY_VAL  BT_UUID_128_ENCODE(0xabcdef21,0x1234,0x1234,0x1234,0x1234567890ab)//Humidity UUID
+#define BT_UUID_HUMIDITY_VAL  BT_UUID_128_ENCODE(0xabcdef21,0x1234,0x1234,0x1234,0x1234567890ab)//Humidity UUID
 
 static struct bt_uuid_128 svc_uuid  = BT_UUID_INIT_128(BT_UUID_SVC_VAL);// 16 Byte
 static struct bt_uuid_128 temp_uuid = BT_UUID_INIT_128(BT_UUID_TMP_VAL);
 // static struct bt_uuid_128 pressure_uuid = BT_UUID_INIT_128(BT_UUID_PRESSURE_VAL);
-// static struct bt_uuid_128 humidity_uuid = BT_UUID_INIT_128(BT_UUID_HUMIDITY_VAL);
+static struct bt_uuid_128 humidity_uuid = BT_UUID_INIT_128(BT_UUID_HUMIDITY_VAL);
 
 static uint8_t notify_enabled;
 
@@ -49,9 +49,9 @@ BT_GATT_SERVICE_DEFINE(bme_svc,
     //     BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
     // BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
     // /**Humidity */
-    // BT_GATT_CHARACTERISTIC(&humidity_uuid.uuid,
-    //     BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
-    // BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+    BT_GATT_CHARACTERISTIC(&humidity_uuid.uuid,
+        BT_GATT_CHRC_NOTIFY, BT_GATT_PERM_NONE, NULL, NULL, NULL),
+    BT_GATT_CCC(ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
 );
 
 static void ble_start(void)
@@ -82,7 +82,13 @@ int main(void)
     if (rc) { LOG_ERR("I2C/BME not ready (%d)", rc); return rc; }
 
     rc = read_temp_calib();
-    if (rc) { LOG_ERR("calib read fail (%d)", rc); return rc; }
+    if (rc) { LOG_ERR("Temp calib read fail (%d)", rc); return rc; }
+
+    rc = read_hum_calib();
+    if (rc) { LOG_ERR("Humidity calib read fail (%d)", rc); return rc; }
+
+    rc = set_ctrl_hum();
+    if (rc) { LOG_ERR("ctrl_meas hum fail (%d)", rc); return rc; }
 
     rc = set_ctrl_meas();
     if (rc) { LOG_ERR("ctrl_meas fail (%d)", rc); return rc; }
@@ -90,13 +96,18 @@ int main(void)
     ble_start();
 
 	while(1){
-        double temp_c;
+        double temp_c, humidity;
         rc = bme380_read_temp_celsius(&temp_c);
-        char str[8];
+        rc = bme380_read_humidity(&humidity);
+        char str_temp[8], str_hum[8];
         if(notify_enabled){
-            snprintf(str, sizeof(str), "%.2f", temp_c);
-            bt_gatt_notify(NULL, &bme_svc.attrs[2], str, sizeof(str)); //temperature->attrs[2], pressure->attrs[5], humidity->attrs[8]
+            snprintf(str_temp, sizeof(str_temp), "%.2f", temp_c);
+            bt_gatt_notify(NULL, &bme_svc.attrs[2], str_temp, sizeof(str_temp)); //temperature->attrs[2], pressure->attrs[5], humidity->attrs[8]
             LOG_INF("T = %.2f C", temp_c);
+
+            snprintf(str_hum, sizeof(str_hum), "%.2f", humidity);
+            bt_gatt_notify(NULL, &bme_svc.attrs[5], str_hum, sizeof(str_hum)); //temperature->attrs[2], pressure->attrs[5], humidity->attrs[8]
+            LOG_INF("RH = %.2f %%", humidity);
         }
 		k_msleep(2000);
 	}
