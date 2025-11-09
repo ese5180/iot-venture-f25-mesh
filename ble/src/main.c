@@ -14,6 +14,7 @@
 
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gatt.h>
+#include <zephyr/bluetooth/hci.h>
 #include <zephyr/sys/byteorder.h>
 
 #include "bme380.h"
@@ -43,6 +44,11 @@ static struct bt_uuid_128 humidity_uuid = BT_UUID_INIT_128(BT_UUID_HUMIDITY_VAL)
 static struct bt_uuid_128 pressure_uuid = BT_UUID_INIT_128(BT_UUID_PRESSURE_VAL);//For pressure sensor
 
 static uint8_t notify_enabled;
+
+// const struct bt_data ad[] = {
+//     BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
+//     BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_SVC_VAL),
+// };
 
 /**ADC */
 static const struct device *adc_dev;
@@ -131,6 +137,68 @@ static void ble_start(void)
         LOG_INF("Advertising started");
     }
 }
+
+// static int adv_start(void)
+// {
+//     int err = bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
+//     if (err && err != -EALREADY) {
+//         LOG_ERR("Advertising start failed (%d)", err);
+//         return err;
+//     }
+//     LOG_INF("Advertising started (or already running)");
+//     return 0;
+// }
+
+// /* =========== Connect callback =========== */ // >>> NEW
+// static void connected(struct bt_conn *conn, uint8_t err)
+// {
+//     if (err) {
+//         LOG_ERR("Connection failed (err %u)", err);
+//         return;
+//     }
+//     char addr[BT_ADDR_LE_STR_LEN];
+//     bt_addr_le_to_str(bt_conn_get_dst(conn), addr, sizeof(addr));
+//     LOG_INF("Connected: %s", addr);
+
+//     /* 继续广播，允许第二台设备连接 */
+//     int ret = adv_start();
+//     if (ret) {
+//         LOG_WRN("Re-start adv after connect failed: %d", ret);
+//     }
+// }
+
+// /* =========== Disconnect Callback =========== */                     // >>> NEW
+// static void disconnected(struct bt_conn *conn, uint8_t reason)
+// {
+//     char addr[BT_ADDR_LE_STR_LEN];
+//     bt_addr_le_to_str(bt_conn_get_dst(conn), addr, sizeof(addr));
+//     LOG_INF("Disconnected: %s (reason 0x%02x)", addr, reason);
+
+//     /* 恢复广播 */
+//     int ret = adv_start();
+//     if (ret) {
+//         LOG_WRN("Re-start adv after disconnect failed: %d", ret);
+//     }
+// }
+
+// /* 在静态区注册回调 */                                                 // >>> NEW
+// BT_CONN_CB_DEFINE(conn_cbs) = {
+//     .connected = connected,
+//     .disconnected = disconnected,
+// };
+
+// /* =========== 初始化 BLE：enable 后就启动一次广播 =========== */        // >>> CHANGED
+// static void ble_start(void)
+// {
+//     int err = bt_enable(NULL);
+//     if (err) {
+//         LOG_ERR("bt_enable failed (%d)", err);
+//         return;
+//     }
+//     LOG_INF("Bluetooth enabled");
+
+//     (void)adv_start();   // 第一次启动广播
+// }
 
 /**ADC Functions */
 static int convert_raw_to_pressure(int16_t raw_value)

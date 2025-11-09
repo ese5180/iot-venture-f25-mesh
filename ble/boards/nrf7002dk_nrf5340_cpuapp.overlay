@@ -75,13 +75,12 @@
 };
 
 /* STEP 2.1 - Add external flash to application */
-// &mx25r64 {
-// 	status = "okay";
-// };
+&mx25r64 {
+	status = "okay";
+};
 
-// / {
-// 	chosen {
-// 		nordic,pm-ext-flash = &mx25r64;
-// 	};
-// };
-
+/ {
+	chosen {
+		nordic,pm-ext-flash = &mx25r64;
+	};
+};
