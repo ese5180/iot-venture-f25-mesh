@@ -7,6 +7,11 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/bluetooth/uuid.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+
 LOG_MODULE_REGISTER(ble_imu_service, LOG_LEVEL_DBG);
 
 /* Connection handle */
@@ -269,6 +274,7 @@ int ble_imu_service_init(void)
 int ble_imu_service_send_attitude(const attitude_t *attitude)
 {
     int err;
+    char msg_qua[64],msg_euler[96];
 
     if (!current_conn) {
         return -ENOTCONN;
@@ -283,12 +289,9 @@ int ble_imu_service_send_attitude(const attitude_t *attitude)
             .z = attitude->quaternion.z,
             .timestamp = attitude->timestamp
         };
-
-        err = bt_gatt_notify(current_conn, &imu_svc.attrs[1],
-                            &quat_packet, sizeof(quat_packet));
-        if (err) {
-            LOG_DBG("Quaternion notify failed: %d", err);
-        }
+        
+        int len = snprintf(msg_qua, sizeof(msg_qua), "W=%.3f, X=%.3f, Y=%.3f, Z=%.3f", attitude->quaternion.w,attitude->quaternion.x,attitude->quaternion.y,attitude->quaternion.z);
+        bt_gatt_notify(current_conn, &imu_svc.attrs[1], msg_qua, len);
     }
 
     /* Send Euler angles if subscribed */
@@ -299,12 +302,12 @@ int ble_imu_service_send_attitude(const attitude_t *attitude)
             .yaw = attitude->euler.yaw,
             .timestamp = attitude->timestamp
         };
+        float roll_deg = attitude->euler.roll * 180.0f / M_PI;
+        float pitch_deg = attitude->euler.pitch * 180.0f / M_PI;
+        float yaw_deg = attitude->euler.yaw * 180.0f / M_PI;
 
-        err = bt_gatt_notify(current_conn, &imu_svc.attrs[4],
-                            &euler_packet, sizeof(euler_packet));
-        if (err) {
-            LOG_DBG("Euler notify failed: %d", err);
-        }
+        int len = snprintf(msg_euler, sizeof(msg_euler), "Roll=%.1f, Pitch=%.1f, Yaw=%.1f", roll_deg, pitch_deg, yaw_deg);
+        bt_gatt_notify(current_conn, &imu_svc.attrs[4], msg_euler, len);
     }
 
     return 0;

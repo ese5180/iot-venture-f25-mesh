@@ -1,16 +1,4 @@
 {
-<<<<<<< HEAD
-    "files.associations": {
-        "attitude_fusion.h": "c",
-        "ble_imu_service.h": "c",
-        "log.h": "c",
-        "imu_driver.h": "c"
-    }
-=======
-  "nrf-connect.applications": [
-    "${workspaceFolder}\\BLE_BME380",
-    "${workspaceFolder}\\ble"
-  ],
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",
@@ -67,11 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "compare": "c",
-    "bme380.h": "c",
-    "cstdint": "c"
-  }
->>>>>>> cab46c6611114cc8ec33bae15d1c4c1d3aac00f9
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }
