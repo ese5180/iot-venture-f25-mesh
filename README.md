@@ -93,12 +93,12 @@ We have already identified potential stakeholder directions: for example, **Edwa
 
 #### **Device Block Diagram**
 <div align="center">
-<img src="images/Power_Block_Dia.png" alt="device block diagram">
+<img src="images/P_B_D.png" alt="device block diagram">
 </div>
 
 #### **Communication Diagram**
 <div align="center">
-<img src="images/Pro_Block_Dia.png" alt="device block diagram">
+<img src="images/Pro_B_D.png" alt="device block diagram">
 </div>
 
 ### Security Requirements Specification
@@ -784,3 +784,21 @@ Hardware → MCUboot (signed) → Application (signed) → User Code
 - **QSPI flash endurance:** 100,000 cycles
 - **Typical FOTA frequency:** Monthly
 - **Expected lifetime:** >8,000 years
+
+public class Cat extends Pet{
+
+    private static String SOUND = "MEOW";
+
+    private String type;
+
+    public Cat(String name, int age, double weight, String type){
+
+        super(name, age, weight);
+
+        this.type = type;
+
+    }
+
+    static ArrayList<Integer> name = new ArrayList<> ();
+
+}
