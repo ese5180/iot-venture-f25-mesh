@@ -12,7 +12,8 @@
 #endif
 
 
-LOG_MODULE_REGISTER(ble_imu_service, LOG_LEVEL_DBG);
+// LOG_MODULE_REGISTER(ble_imu_service, LOG_LEVEL_DBG);
+LOG_MODULE_REGISTER(ble_service, LOG_LEVEL_DBG);
 
 /* Connection handle */
 static struct bt_conn *current_conn = NULL;
@@ -20,6 +21,7 @@ static struct bt_conn *current_conn = NULL;
 /* Notification flags */
 static bool quaternion_notify_enabled = false;
 static bool euler_notify_enabled = false;
+static bool notify_enabled = false; //BME280 & pressure sensor
 
 /* Control command callback */
 static ble_imu_control_callback_t control_callback = NULL;
@@ -38,6 +40,7 @@ static struct bt_data ad[] = {
 };
 
 /* Forward declarations */
+static void ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value);
 static void quaternion_ccc_changed(const struct bt_gatt_attr *attr, uint16_t value);
 static void euler_ccc_changed(const struct bt_gatt_attr *attr, uint16_t value);
 static ssize_t control_write(struct bt_conn *conn, const struct bt_gatt_attr *attr,
@@ -67,12 +70,36 @@ BT_GATT_SERVICE_DEFINE(imu_svc,
                           NULL, NULL, NULL),
     BT_GATT_CCC(euler_ccc_changed,
                BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+
+    /* Temperature Characteristic */
+    BT_GATT_CHARACTERISTIC(BT_UUID_TMP,
+                          BT_GATT_CHRC_NOTIFY,
+                          BT_GATT_PERM_NONE,
+                          NULL, NULL, NULL),
+    BT_GATT_CCC(ccc_cfg_changed,
+               BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+
+    /* Humidity Characteristic */
+    BT_GATT_CHARACTERISTIC(BT_UUID_HUMIDITY,
+                          BT_GATT_CHRC_NOTIFY,
+                          BT_GATT_PERM_NONE,
+                          NULL, NULL, NULL),
+    BT_GATT_CCC(ccc_cfg_changed,
+               BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+
+    /* Pressure Characteristic */
+    BT_GATT_CHARACTERISTIC(BT_UUID_PRESSURE,
+                          BT_GATT_CHRC_NOTIFY,
+                          BT_GATT_PERM_NONE,
+                          NULL, NULL, NULL),
+    BT_GATT_CCC(ccc_cfg_changed,
+               BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
     
     /* Control Characteristic */
-    BT_GATT_CHARACTERISTIC(BT_UUID_IMU_CONTROL,
-                          BT_GATT_CHRC_WRITE,
-                          BT_GATT_PERM_WRITE,
-                          NULL, control_write, NULL),
+    // BT_GATT_CHARACTERISTIC(BT_UUID_IMU_CONTROL,
+    //                       BT_GATT_CHRC_WRITE,
+    //                       BT_GATT_PERM_WRITE,
+    //                       NULL, control_write, NULL),
 );
 
 /**
@@ -163,6 +190,8 @@ static void disconnected(struct bt_conn *conn, uint8_t reason)
 
     quaternion_notify_enabled = false;
     euler_notify_enabled = false;
+    notify_enabled = false;
+
 
     /* Use workqueue to restart advertising to avoid blocking BLE callback */
     k_work_schedule(&restart_adv_work, K_MSEC(500));
@@ -176,6 +205,11 @@ BT_CONN_CB_DEFINE(conn_callbacks) = {
 /**
  * @brief Quaternion CCC changed callback
  */
+
+static void ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value) {
+    notify_enabled = (value == BT_GATT_CCC_NOTIFY);
+}
+ 
 static void quaternion_ccc_changed(const struct bt_gatt_attr *attr, uint16_t value)
 {
     quaternion_notify_enabled = (value == BT_GATT_CCC_NOTIFY);
@@ -245,7 +279,6 @@ static ssize_t control_write(struct bt_conn *conn, const struct bt_gatt_attr *at
 int ble_imu_service_init(void)
 {
     int err;
-
     LOG_INF("Initializing BLE IMU service");
 
     /* Enable Bluetooth */
@@ -254,7 +287,6 @@ int ble_imu_service_init(void)
         LOG_ERR("Bluetooth init failed: %d", err);
         return err;
     }
-
     LOG_INF("Bluetooth initialized");
 
     /* Start advertising */
@@ -263,7 +295,6 @@ int ble_imu_service_init(void)
         LOG_ERR("Advertising failed to start: %d", err);
         return err;
     }
-
     LOG_INF("BLE advertising started");
     return 0;
 }
@@ -314,11 +345,59 @@ int ble_imu_service_send_attitude(const attitude_t *attitude)
 }
 
 /**
- * @brief Check if notifications are enabled
+ * @brief Send temperature attitude data via BLE
+ */
+int ble_env_notify_temperature(double temp_c)
+{
+    if (!ble_env_notify_enabled()) {
+        return -ENOTCONN;
+    }
+    char str_temp[16];
+    int len = snprintf(str_temp, sizeof(str_temp), "T=%.2f", temp_c);
+    return bt_gatt_notify(current_conn, &imu_svc.attrs[7],
+                          str_temp, len);
+}
+
+/**
+ * @brief Send humidity attitude data via BLE
+ */
+int ble_env_notify_humidity(double rh)
+{
+    if (!ble_env_notify_enabled()) {
+        return -ENOTCONN;
+    }
+    char str_hum[16];
+    int len = snprintf(str_hum, sizeof(str_hum), "RH=%.2f", rh);
+    return bt_gatt_notify(current_conn, &imu_svc.attrs[10],
+                          str_hum, len);
+}
+
+int ble_env_notify_bruxism(int episodes_left, int episodes_right, int pressure_left, int pressure_right, int total_count)
+{
+    if (!ble_env_notify_enabled()) {
+        return -ENOTCONN;
+    }
+    char str_press[32];
+    int len = snprintf(str_press, sizeof(str_press), "left=%d,right=%d", episodes_left, episodes_right);
+    return bt_gatt_notify(current_conn, &imu_svc.attrs[13],
+                          str_press, len);
+}
+
+
+/**
+ * @brief Check if imu notifications are enabled
  */
 bool ble_imu_service_is_subscribed(void)
 {
     return (quaternion_notify_enabled || euler_notify_enabled);
+}
+
+/**
+ * @brief Check if temp & humidity & pressure notifications are enabled
+ */
+bool ble_env_notify_enabled(void)
+{
+    return notify_enabled && current_conn != NULL;
 }
 
 /**

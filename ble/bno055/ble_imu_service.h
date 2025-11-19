@@ -30,14 +30,31 @@ extern "C" {
 #define BT_UUID_IMU_EULER_VAL \
     BT_UUID_128_ENCODE(0x12345678, 0x1234, 0x5678, 0x1234, 0x56789abcdef2)
 
-/* Control Characteristic UUID: 12345678-1234-5678-1234-56789abcdef3 */
-#define BT_UUID_IMU_CONTROL_VAL \
+/* Temperature Characteristic UUID: 12345678-1234-5678-1234-56789abcdef3 */
+#define BT_UUID_TMP_VAL \
     BT_UUID_128_ENCODE(0x12345678, 0x1234, 0x5678, 0x1234, 0x56789abcdef3)
+
+/* Humidity Characteristic UUID: 12345678-1234-5678-1234-56789abcdef4 */
+#define BT_UUID_HUMIDITY_VAL \
+    BT_UUID_128_ENCODE(0x12345678, 0x1234, 0x5678, 0x1234, 0x56789abcdef4)
+
+/* Pressure Characteristic UUID: 12345678-1234-5678-1234-56789abcdef5 */
+#define BT_UUID_PRESSURE_VAL \
+    BT_UUID_128_ENCODE(0x12345678, 0x1234, 0x5678, 0x1234, 0x56789abcdef5)
+
+// /* Control Characteristic UUID: 12345678-1234-5678-1234-56789abcdef3 */
+// #define BT_UUID_IMU_CONTROL_VAL \
+//     BT_UUID_128_ENCODE(0x12345678, 0x1234, 0x5678, 0x1234, 0x56789abcdef3)
 
 #define BT_UUID_IMU_SERVICE      BT_UUID_DECLARE_128(BT_UUID_IMU_SERVICE_VAL)
 #define BT_UUID_IMU_QUATERNION   BT_UUID_DECLARE_128(BT_UUID_IMU_QUATERNION_VAL)
 #define BT_UUID_IMU_EULER        BT_UUID_DECLARE_128(BT_UUID_IMU_EULER_VAL)
-#define BT_UUID_IMU_CONTROL      BT_UUID_DECLARE_128(BT_UUID_IMU_CONTROL_VAL)
+#define BT_UUID_TMP      BT_UUID_DECLARE_128(BT_UUID_TMP_VAL)
+#define BT_UUID_HUMIDITY   BT_UUID_DECLARE_128(BT_UUID_HUMIDITY_VAL)
+#define BT_UUID_PRESSURE        BT_UUID_DECLARE_128(BT_UUID_PRESSURE_VAL)
+
+
+// #define BT_UUID_IMU_CONTROL      BT_UUID_DECLARE_128(BT_UUID_IMU_CONTROL_VAL)
 
 /* Quaternion structure */
 typedef struct {
@@ -128,6 +145,12 @@ bool ble_imu_service_is_connected(void);
  * @param callback Function to call when control command received
  */
 void ble_imu_service_register_control_callback(ble_imu_control_callback_t callback);
+
+
+bool ble_env_notify_enabled(void);
+int ble_env_notify_temperature(double temp_c);
+int ble_env_notify_humidity(double rh);
+int ble_env_notify_bruxism(int episodes_left, int episodes_right, int pressure_left, int pressure_right, int total_count);
 
 #ifdef __cplusplus
 }
