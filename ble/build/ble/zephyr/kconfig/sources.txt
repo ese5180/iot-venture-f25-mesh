@@ -1,4 +1,3 @@
-/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/Kconfig
 /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/Kconfig/Kconfig.dts
 /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/Kconfig/Kconfig.modules
 /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/Kconfig/Kconfig.shield
@@ -414,6 +413,7 @@
 /opt/nordic/ncs/v3.0.2/nrfxlib/nrf_modem/Kconfig
 /opt/nordic/ncs/v3.0.2/nrfxlib/nrf_rpc/Kconfig
 /opt/nordic/ncs/v3.0.2/nrfxlib/openthread/Kconfig
+/opt/nordic/ncs/v3.0.2/zephyr/Kconfig
 /opt/nordic/ncs/v3.0.2/zephyr/Kconfig.constants
 /opt/nordic/ncs/v3.0.2/zephyr/Kconfig.zephyr
 /opt/nordic/ncs/v3.0.2/zephyr/arch/Kconfig

@@ -15,7 +15,7 @@ config:
   board_dir: /opt/nordic/ncs/v3.0.2/zephyr/boards/nordic/nrf7002dk
   # Build outputs:
   elf_file: zephyr.elf
-  hex_file: zephyr.hex
+  hex_file: /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/merged_CPUNET.hex
   bin_file: zephyr.bin
   # Host tools:
   gdb: /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb

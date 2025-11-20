@@ -1,0 +1,408 @@
+modules:
+- name: nrf
+  path: /opt/nordic/ncs/v3.0.2/nrf
+  remote: https://github.com/nrfconnect/sdk-nrf
+  revision: 89ba1294ac9b624e28271a5c71e99193ed4d92a4-dirty
+- name: hostap
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/hostap
+  remote: https://github.com/nrfconnect/sdk-hostap
+  revision: 8cd83053a3723d12c1d4ace712dfced687cb0b9b-dirty
+- name: mcuboot
+  path: /opt/nordic/ncs/v3.0.2/bootloader/mcuboot
+  remote: https://github.com/nrfconnect/sdk-mcuboot
+  revision: ae1ee57f390621a20696387d0ad89e9e1f7ed1b7-dirty
+- name: mbedtls
+  path: /opt/nordic/ncs/v3.0.2/modules/crypto/mbedtls
+  remote: https://github.com/nrfconnect/sdk-mbedtls
+  revision: 44ce293d1d9bf4251e337160250d7dd477f52edd-dirty
+  security:
+    external-references:
+    - cpe:2.3:a:arm:mbed_tls:3.6.3:*:*:*:*:*:*:*
+    - pkg:github/Mbed-TLS/mbedtls@v3.6.3
+- name: oberon-psa-crypto
+  path: /opt/nordic/ncs/v3.0.2/modules/crypto/oberon-psa-crypto
+  remote: https://github.com/nrfconnect/sdk-oberon-psa-crypto
+  revision: de2e3e0c9f086b179a0bd7c45d4c74753f7eca07-dirty
+- name: trusted-firmware-m
+  path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/trusted-firmware-m
+  remote: https://github.com/nrfconnect/sdk-trusted-firmware-m
+  revision: 17765832a390987ea7cfcd5667d65320be00ec0b-dirty
+- name: psa-arch-tests
+  path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/psa-arch-tests
+  remote: https://github.com/nrfconnect/sdk-psa-arch-tests
+  revision: 3da9313e64806d352c519e3205e81cf959067588-dirty
+- name: cjson
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/cjson
+  remote: https://github.com/nrfconnect/sdk-cjson
+  revision: c6af068b7f05207b28d68880740e4b9ec1e4b50a-dirty
+- name: azure-sdk-for-c
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/azure-sdk-for-c
+  remote: https://github.com/nrfconnect/azure-sdk-for-c
+  revision: 308c171cb4b5eed266649012a68406487ec81fb2-dirty
+- name: cirrus-logic
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/cirrus-logic
+  remote: https://github.com/nrfconnect/sdk-mcu-drivers
+  revision: 3873a08377d93a479105a75ac390d3bbcd31d690-dirty
+- name: openthread
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/openthread
+  remote: https://github.com/nrfconnect/sdk-openthread
+  revision: 0e26667136c2c49d42c96b8104ec2e90e8d55e4d-dirty
+- name: suit-generator
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/suit-generator
+  remote: https://github.com/nrfconnect/suit-generator
+  revision: d6afcd80b376b069eeb59061c50721983932ab6f-dirty
+- name: suit-processor
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/suit-processor
+  remote: https://github.com/nrfconnect/suit-processor
+  revision: 94effb7561b3a970195df76165e4b15e4ac0c34e-dirty
+- name: memfault-firmware-sdk
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/memfault-firmware-sdk
+  remote: https://github.com/memfault/memfault-firmware-sdk
+  revision: 0bd360fec3b5bf3af0286a1bba3e1faa8c7b8b1b-dirty
+- name: coremark
+  path: /opt/nordic/ncs/v3.0.2/modules/benchmark/coremark
+  remote: https://github.com/eembc/coremark
+  revision: d5fad6bd094899101a4e5fd53af7298160ced6ab-dirty
+- name: canopennode
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/canopennode
+  remote: https://github.com/zephyrproject-rtos/canopennode
+  revision: dec12fa3f0d790cafa8414a4c2930ea71ab72ffd-dirty
+- name: chre
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/chre
+  remote: https://github.com/zephyrproject-rtos/chre
+  revision: 3b32c76efee705af146124fb4190f71be5a4e36e-dirty
+- name: lz4
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/lz4
+  remote: https://github.com/zephyrproject-rtos/lz4
+  revision: 11b8a1e22fa651b524494e55d22b69d3d9cebcfd-dirty
+- name: nanopb
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/nanopb
+  remote: https://github.com/zephyrproject-rtos/nanopb
+  revision: 7307ce399b81ddcb3c3a5dc862c52d4754328d38-dirty
+- name: tf-m-tests
+  path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/tf-m-tests
+  remote: https://github.com/zephyrproject-rtos/tf-m-tests
+  revision: 502ea90105ee18f20c78f710e2ba2ded0fc0756e-dirty
+- name: zscilib
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/zscilib
+  remote: https://github.com/zephyrproject-rtos/zscilib
+  revision: ee1b287d9dd07208d2cc52284240ac25bb66eae3-dirty
+- name: cmsis
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/cmsis
+  remote: https://github.com/zephyrproject-rtos/cmsis
+  revision: 4b96cbb174678dcd3ca86e11e1f24bc5f8726da0-dirty
+- name: cmsis-dsp
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/cmsis-dsp
+  remote: https://github.com/zephyrproject-rtos/cmsis-dsp
+  revision: d80a49b2bb186317dc1db4ac88da49c0ab77e6e7-dirty
+- name: cmsis-nn
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/cmsis-nn
+  remote: https://github.com/zephyrproject-rtos/cmsis-nn
+  revision: ea987c1ca661be723de83bd159aed815d6cbd430-dirty
+- name: fatfs
+  path: /opt/nordic/ncs/v3.0.2/modules/fs/fatfs
+  remote: https://github.com/zephyrproject-rtos/fatfs
+  revision: 427159bf95ea49b7680facffaa29ad506b42709b-dirty
+- name: hal_nordic
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/nordic
+  remote: https://github.com/zephyrproject-rtos/hal_nordic
+  revision: 8cdcc33c6e5c7618ca4e77ff19a0eab557cc4bd5-dirty
+- name: hal_st
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/st
+  remote: https://github.com/zephyrproject-rtos/hal_st
+  revision: 05fd4533730a9aea845261c5d24ed9832a6f0b6e-dirty
+- name: hal_tdk
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/tdk
+  remote: https://github.com/zephyrproject-rtos/hal_tdk
+  revision: e0ade95b29841d915c38bc157bb5509270e8aa21-dirty
+- name: hal_wurthelektronik
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/wurthelektronik
+  remote: https://github.com/zephyrproject-rtos/hal_wurthelektronik
+  revision: e3e2797b224fc48fdef1bc3e5a12a7c73108bba2-dirty
+- name: liblc3
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/liblc3
+  remote: https://github.com/zephyrproject-rtos/liblc3
+  revision: bb85f7dde4195bfc0fca9e9c7c2eed0f8694203c-dirty
+- name: libmetal
+  path: /opt/nordic/ncs/v3.0.2/modules/hal/libmetal
+  remote: https://github.com/zephyrproject-rtos/libmetal
+  revision: 14f519529a1e4a46aaea6826f5a41d99a3347276-dirty
+- name: littlefs
+  path: /opt/nordic/ncs/v3.0.2/modules/fs/littlefs
+  remote: https://github.com/zephyrproject-rtos/littlefs
+  revision: 009bcff0ed4853a53df8256039fa815bda6854dd-dirty
+- name: loramac-node
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/loramac-node
+  remote: https://github.com/zephyrproject-rtos/loramac-node
+  revision: fb00b383072518c918e2258b0916c996f2d4eebe-dirty
+- name: lvgl
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/gui/lvgl
+  remote: https://github.com/zephyrproject-rtos/lvgl
+  revision: 6decbb7f7783f6e48d4591fcb9f7810c2fb08e61-dirty
+- name: mipi-sys-t
+  path: /opt/nordic/ncs/v3.0.2/modules/debug/mipi-sys-t
+  remote: https://github.com/zephyrproject-rtos/mipi-sys-t
+  revision: 71ace1f5caa03e56c8740a09863e685efb4b2360-dirty
+- name: nrf_wifi
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/nrf_wifi
+  remote: https://github.com/zephyrproject-rtos/nrf_wifi
+  revision: 5e185a2b33b4f5b9524999a5bfd96121d25ffdbc-dirty
+- name: open-amp
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/open-amp
+  remote: https://github.com/zephyrproject-rtos/open-amp
+  revision: f7f4d083c7909a39d86e217376c69b416ec4faf3-dirty
+- name: percepio
+  path: /opt/nordic/ncs/v3.0.2/modules/debug/percepio
+  remote: https://github.com/zephyrproject-rtos/percepio
+  revision: 0d44033c744978ca2505a06640b4f6964c5411e6-dirty
+- name: picolibc
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/picolibc
+  remote: https://github.com/zephyrproject-rtos/picolibc
+  revision: 82d62ed1ac55b4e34a12d0390aced2dc9af13fc9-dirty
+- name: segger
+  path: /opt/nordic/ncs/v3.0.2/modules/debug/segger
+  remote: https://github.com/zephyrproject-rtos/segger
+  revision: cf56b1d9c80f81a26e2ac5727c9cf177116a4692-dirty
+- name: tinycrypt
+  path: /opt/nordic/ncs/v3.0.2/modules/crypto/tinycrypt
+  remote: https://github.com/zephyrproject-rtos/tinycrypt
+  revision: 1012a3ebee18c15ede5efc8332ee2fc37817670f-dirty
+- name: uoscore-uedhoc
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/uoscore-uedhoc
+  remote: https://github.com/zephyrproject-rtos/uoscore-uedhoc
+  revision: 84ef879a46d7bfd9a423fbfb502b04289861f9ea-dirty
+- name: zcbor
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/zcbor
+  remote: https://github.com/zephyrproject-rtos/zcbor
+  revision: 9b07780aca6fb21f82a241ba386ad9b379809337-dirty
+- name: nrfxlib
+  path: /opt/nordic/ncs/v3.0.2/nrfxlib
+  remote: https://github.com/nrfconnect/sdk-nrfxlib
+  revision: 3a14dbc326c385a0161fc122f72b6d9be308f7d6-dirty
+- name: nrf_hw_models
+  path: /opt/nordic/ncs/v3.0.2/modules/bsim_hw_models/nrf_hw_models
+  remote: https://github.com/zephyrproject-rtos/nrf_hw_models
+  revision: b84bd7314a239f818e78f6927f5673247816df53-dirty
+- name: connectedhomeip
+  path: /opt/nordic/ncs/v3.0.2/modules/lib/matter
+  remote: https://github.com/nrfconnect/sdk-connectedhomeip
+  revision: b16d42678846cacd5ef9cadd01ceab00e2119bf6-dirty
+west:
+  manifest: /opt/nordic/ncs/v3.0.2/nrf/west.yml
+  projects:
+  - path: /opt/nordic/ncs/v3.0.2/nrf
+    remote: https://github.com/nrfconnect/sdk-nrf
+    revision: 89ba1294ac9b624e28271a5c71e99193ed4d92a4-dirty
+  - path: /opt/nordic/ncs/v3.0.2/zephyr
+    remote: https://github.com/nrfconnect/sdk-zephyr
+    revision: f791c49f492c40da0d18efd51087b6fe1ec56aa0-dirty
+  - name: hostap
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/hostap
+    remote: https://github.com/nrfconnect/sdk-hostap
+    revision: 8cd83053a3723d12c1d4ace712dfced687cb0b9b-dirty
+  - path: /opt/nordic/ncs/v3.0.2/modules/lib/wfa-qt-control-app
+    remote: https://github.com/nrfconnect/sdk-wi-fiquicktrack-controlappc
+    revision: af011c8a8d338ba529f17aed2cc2ef4c1c591a58-dirty
+  - name: mcuboot
+    path: /opt/nordic/ncs/v3.0.2/bootloader/mcuboot
+    remote: https://github.com/nrfconnect/sdk-mcuboot
+    revision: ae1ee57f390621a20696387d0ad89e9e1f7ed1b7-dirty
+  - path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/qcbor
+    remote: https://github.com/laurencelundblade/QCBOR
+    revision: 751d36583a9ce1a640900c57e13c9b6b8f3a2ba2-dirty
+  - name: mbedtls
+    path: /opt/nordic/ncs/v3.0.2/modules/crypto/mbedtls
+    remote: https://github.com/nrfconnect/sdk-mbedtls
+    revision: 44ce293d1d9bf4251e337160250d7dd477f52edd-dirty
+    security:
+      external-references:
+      - cpe:2.3:a:arm:mbed_tls:3.6.3:*:*:*:*:*:*:*
+      - pkg:github/Mbed-TLS/mbedtls@v3.6.3
+  - name: oberon-psa-crypto
+    path: /opt/nordic/ncs/v3.0.2/modules/crypto/oberon-psa-crypto
+    remote: https://github.com/nrfconnect/sdk-oberon-psa-crypto
+    revision: de2e3e0c9f086b179a0bd7c45d4c74753f7eca07-dirty
+  - name: nrfxlib
+    path: /opt/nordic/ncs/v3.0.2/nrfxlib
+    remote: https://github.com/nrfconnect/sdk-nrfxlib
+    revision: 3a14dbc326c385a0161fc122f72b6d9be308f7d6-dirty
+  - name: trusted-firmware-m
+    path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/trusted-firmware-m
+    remote: https://github.com/nrfconnect/sdk-trusted-firmware-m
+    revision: 17765832a390987ea7cfcd5667d65320be00ec0b-dirty
+  - name: psa-arch-tests
+    path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/psa-arch-tests
+    remote: https://github.com/nrfconnect/sdk-psa-arch-tests
+    revision: 3da9313e64806d352c519e3205e81cf959067588-dirty
+  - name: connectedhomeip
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/matter
+    remote: https://github.com/nrfconnect/sdk-connectedhomeip
+    revision: b16d42678846cacd5ef9cadd01ceab00e2119bf6-dirty
+  - name: cjson
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/cjson
+    remote: https://github.com/nrfconnect/sdk-cjson
+    revision: c6af068b7f05207b28d68880740e4b9ec1e4b50a-dirty
+  - name: azure-sdk-for-c
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/azure-sdk-for-c
+    remote: https://github.com/nrfconnect/azure-sdk-for-c
+    revision: 308c171cb4b5eed266649012a68406487ec81fb2-dirty
+  - name: cirrus-logic
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/cirrus-logic
+    remote: https://github.com/nrfconnect/sdk-mcu-drivers
+    revision: 3873a08377d93a479105a75ac390d3bbcd31d690-dirty
+  - name: openthread
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/openthread
+    remote: https://github.com/nrfconnect/sdk-openthread
+    revision: 0e26667136c2c49d42c96b8104ec2e90e8d55e4d-dirty
+  - name: suit-generator
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/suit-generator
+    remote: https://github.com/nrfconnect/suit-generator
+    revision: d6afcd80b376b069eeb59061c50721983932ab6f-dirty
+  - name: suit-processor
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/suit-processor
+    remote: https://github.com/nrfconnect/suit-processor
+    revision: 94effb7561b3a970195df76165e4b15e4ac0c34e-dirty
+  - path: /opt/nordic/ncs/v3.0.2/test/cmock
+    remote: https://github.com/ThrowTheSwitch/cmock
+    revision: f65066f15d8248e6dcb778efb8739904a4512087-dirty
+  - name: memfault-firmware-sdk
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/memfault-firmware-sdk
+    remote: https://github.com/memfault/memfault-firmware-sdk
+    revision: 0bd360fec3b5bf3af0286a1bba3e1faa8c7b8b1b-dirty
+  - path: /opt/nordic/ncs/v3.0.2/tools/bsim
+    remote: https://github.com/BabbleSim/bsim_west
+    revision: a88d3353451387ca490a6a7f7c478a90c4ee05b7-dirty
+  - name: coremark
+    path: /opt/nordic/ncs/v3.0.2/modules/benchmark/coremark
+    remote: https://github.com/eembc/coremark
+    revision: d5fad6bd094899101a4e5fd53af7298160ced6ab-dirty
+  - name: canopennode
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/canopennode
+    remote: https://github.com/zephyrproject-rtos/canopennode
+    revision: dec12fa3f0d790cafa8414a4c2930ea71ab72ffd-dirty
+  - name: chre
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/chre
+    remote: https://github.com/zephyrproject-rtos/chre
+    revision: 3b32c76efee705af146124fb4190f71be5a4e36e-dirty
+  - name: lz4
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/lz4
+    remote: https://github.com/zephyrproject-rtos/lz4
+    revision: 11b8a1e22fa651b524494e55d22b69d3d9cebcfd-dirty
+  - name: nanopb
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/nanopb
+    remote: https://github.com/zephyrproject-rtos/nanopb
+    revision: 7307ce399b81ddcb3c3a5dc862c52d4754328d38-dirty
+  - name: tf-m-tests
+    path: /opt/nordic/ncs/v3.0.2/modules/tee/tf-m/tf-m-tests
+    remote: https://github.com/zephyrproject-rtos/tf-m-tests
+    revision: 502ea90105ee18f20c78f710e2ba2ded0fc0756e-dirty
+  - name: zscilib
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/zscilib
+    remote: https://github.com/zephyrproject-rtos/zscilib
+    revision: ee1b287d9dd07208d2cc52284240ac25bb66eae3-dirty
+  - name: cmsis
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/cmsis
+    remote: https://github.com/zephyrproject-rtos/cmsis
+    revision: 4b96cbb174678dcd3ca86e11e1f24bc5f8726da0-dirty
+  - name: cmsis-dsp
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/cmsis-dsp
+    remote: https://github.com/zephyrproject-rtos/cmsis-dsp
+    revision: d80a49b2bb186317dc1db4ac88da49c0ab77e6e7-dirty
+  - name: cmsis-nn
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/cmsis-nn
+    remote: https://github.com/zephyrproject-rtos/cmsis-nn
+    revision: ea987c1ca661be723de83bd159aed815d6cbd430-dirty
+  - path: /opt/nordic/ncs/v3.0.2/tools/edtt
+    remote: https://github.com/zephyrproject-rtos/edtt
+    revision: b9ca3c7030518f07b7937dacf970d37a47865a76-dirty
+  - name: fatfs
+    path: /opt/nordic/ncs/v3.0.2/modules/fs/fatfs
+    remote: https://github.com/zephyrproject-rtos/fatfs
+    revision: 427159bf95ea49b7680facffaa29ad506b42709b-dirty
+  - name: hal_nordic
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/nordic
+    remote: https://github.com/zephyrproject-rtos/hal_nordic
+    revision: 8cdcc33c6e5c7618ca4e77ff19a0eab557cc4bd5-dirty
+  - name: hal_st
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/st
+    remote: https://github.com/zephyrproject-rtos/hal_st
+    revision: 05fd4533730a9aea845261c5d24ed9832a6f0b6e-dirty
+  - name: hal_tdk
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/tdk
+    remote: https://github.com/zephyrproject-rtos/hal_tdk
+    revision: e0ade95b29841d915c38bc157bb5509270e8aa21-dirty
+  - name: hal_wurthelektronik
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/wurthelektronik
+    remote: https://github.com/zephyrproject-rtos/hal_wurthelektronik
+    revision: e3e2797b224fc48fdef1bc3e5a12a7c73108bba2-dirty
+  - name: liblc3
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/liblc3
+    remote: https://github.com/zephyrproject-rtos/liblc3
+    revision: bb85f7dde4195bfc0fca9e9c7c2eed0f8694203c-dirty
+  - name: libmetal
+    path: /opt/nordic/ncs/v3.0.2/modules/hal/libmetal
+    remote: https://github.com/zephyrproject-rtos/libmetal
+    revision: 14f519529a1e4a46aaea6826f5a41d99a3347276-dirty
+  - name: littlefs
+    path: /opt/nordic/ncs/v3.0.2/modules/fs/littlefs
+    remote: https://github.com/zephyrproject-rtos/littlefs
+    revision: 009bcff0ed4853a53df8256039fa815bda6854dd-dirty
+  - name: loramac-node
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/loramac-node
+    remote: https://github.com/zephyrproject-rtos/loramac-node
+    revision: fb00b383072518c918e2258b0916c996f2d4eebe-dirty
+  - name: lvgl
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/gui/lvgl
+    remote: https://github.com/zephyrproject-rtos/lvgl
+    revision: 6decbb7f7783f6e48d4591fcb9f7810c2fb08e61-dirty
+  - name: mipi-sys-t
+    path: /opt/nordic/ncs/v3.0.2/modules/debug/mipi-sys-t
+    remote: https://github.com/zephyrproject-rtos/mipi-sys-t
+    revision: 71ace1f5caa03e56c8740a09863e685efb4b2360-dirty
+  - path: /opt/nordic/ncs/v3.0.2/tools/net-tools
+    remote: https://github.com/zephyrproject-rtos/net-tools
+    revision: 93acc8bac4661e74e695eb1aea94c7c5262db2e2-dirty
+  - name: nrf_hw_models
+    path: /opt/nordic/ncs/v3.0.2/modules/bsim_hw_models/nrf_hw_models
+    remote: https://github.com/zephyrproject-rtos/nrf_hw_models
+    revision: b84bd7314a239f818e78f6927f5673247816df53-dirty
+  - name: nrf_wifi
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/nrf_wifi
+    remote: https://github.com/zephyrproject-rtos/nrf_wifi
+    revision: 5e185a2b33b4f5b9524999a5bfd96121d25ffdbc-dirty
+  - name: open-amp
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/open-amp
+    remote: https://github.com/zephyrproject-rtos/open-amp
+    revision: f7f4d083c7909a39d86e217376c69b416ec4faf3-dirty
+  - name: percepio
+    path: /opt/nordic/ncs/v3.0.2/modules/debug/percepio
+    remote: https://github.com/zephyrproject-rtos/percepio
+    revision: 0d44033c744978ca2505a06640b4f6964c5411e6-dirty
+  - name: picolibc
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/picolibc
+    remote: https://github.com/zephyrproject-rtos/picolibc
+    revision: 82d62ed1ac55b4e34a12d0390aced2dc9af13fc9-dirty
+  - name: segger
+    path: /opt/nordic/ncs/v3.0.2/modules/debug/segger
+    remote: https://github.com/zephyrproject-rtos/segger
+    revision: cf56b1d9c80f81a26e2ac5727c9cf177116a4692-dirty
+  - name: tinycrypt
+    path: /opt/nordic/ncs/v3.0.2/modules/crypto/tinycrypt
+    remote: https://github.com/zephyrproject-rtos/tinycrypt
+    revision: 1012a3ebee18c15ede5efc8332ee2fc37817670f-dirty
+  - name: uoscore-uedhoc
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/uoscore-uedhoc
+    remote: https://github.com/zephyrproject-rtos/uoscore-uedhoc
+    revision: 84ef879a46d7bfd9a423fbfb502b04289861f9ea-dirty
+  - name: zcbor
+    path: /opt/nordic/ncs/v3.0.2/modules/lib/zcbor
+    remote: https://github.com/zephyrproject-rtos/zcbor
+    revision: 9b07780aca6fb21f82a241ba386ad9b379809337-dirty
+workspace:
+  dirty: true
+  extra: false
+  'off': false
+zephyr:
+  path: /opt/nordic/ncs/v3.0.2/zephyr
+  remote: https://github.com/nrfconnect/sdk-zephyr
+  revision: f791c49f492c40da0d18efd51087b6fe1ec56aa0-dirty

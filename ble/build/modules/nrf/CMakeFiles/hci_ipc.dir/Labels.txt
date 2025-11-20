@@ -1,0 +1,13 @@
+# Target labels
+ hci_ipc
+# Source files and their labels
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/CMakeFiles/hci_ipc
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/CMakeFiles/hci_ipc.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/CMakeFiles/hci_ipc-complete.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-build.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-configure.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-download.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-install.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-mkdir.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-patch.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/hci_ipc-prefix/src/hci_ipc-stamp/hci_ipc-update.rule
