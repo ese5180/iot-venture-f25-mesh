@@ -1,0 +1,16 @@
+/* memfault_metrics_heartbeat_config.def */
+
+/* 追踪左侧压力值 (0-1000 N) - 无符号整数 */
+MEMFAULT_METRICS_KEY_DEFINE(pressure_left, kMemfaultMetricType_Unsigned)
+
+/* 追踪右侧压力值 (0-1000 N) - 无符号整数 */
+MEMFAULT_METRICS_KEY_DEFINE(pressure_right, kMemfaultMetricType_Unsigned)
+
+/* 温度 × 10 (例如：25.5°C → 255) */
+MEMFAULT_METRICS_KEY_DEFINE_WITH_SCALE_VALUE(temperature_celsius_x10, kMemfaultMetricType_Signed, 10)
+
+/* 湿度 × 10 (例如：60.5% → 605) - ⚠️ 注意这里要加 _WITH_SCALE_VALUE */
+MEMFAULT_METRICS_KEY_DEFINE_WITH_SCALE_VALUE(humidity_pct_x10, kMemfaultMetricType_Signed, 10)
+
+/* 追踪磨牙总次数 - 无符号整数 */
+MEMFAULT_METRICS_KEY_DEFINE(grinding_total, kMemfaultMetricType_Unsigned)
