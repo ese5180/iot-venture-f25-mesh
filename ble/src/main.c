@@ -900,6 +900,8 @@ static int system_init(void)
 
 int main(void)
 {
+    LOG_INF("🔄 BME/pressure thread started");
+
     int rc;
     int err;
 
