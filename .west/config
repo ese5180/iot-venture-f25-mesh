@@ -1,0 +1,4 @@
+[manifest]
+path = ble
+file = west.yml
+
