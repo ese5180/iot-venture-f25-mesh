@@ -4,5 +4,8 @@
         "ble_imu_service.h": "c",
         "log.h": "c",
         "imu_driver.h": "c"
-    }
+    },
+    "nrf-connect.applications": [
+        "${workspaceFolder}\\ble"
+    ]
 }
