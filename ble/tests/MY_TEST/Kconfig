@@ -1,0 +1,11 @@
+# menu "Unit test configuration"
+
+# config TEST_FORCE_SUM_LOG
+#     bool "Force Logger implementation in tests"
+#     default y
+#     select SUM_LOG      
+#     select LOG          
+
+# endmenu
+
+# source "Kconfig.zephyr"
