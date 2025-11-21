@@ -1,6 +1,6 @@
 {
     "format-version": 1,
-    "time": 1763734406,
+    "time": 1763764909,
     "files": [
         {
             "type": "application",
@@ -10,10 +10,10 @@
             "image_index": "0",
             "slot_index_primary": "1",
             "slot_index_secondary": "2",
-            "version_MCUBOOT": "0.0.1",
-            "size": 356495,
+            "version_MCUBOOT": "0.0.3",
+            "size": 356496,
             "file": "ble.signed.bin",
-            "modtime": 1763734352
+            "modtime": 1763764896
         },
         {
             "type": "application",
@@ -26,7 +26,7 @@
             "version": "1",
             "size": 187095,
             "file": "hci_ipc.bin",
-            "modtime": 1763734406
+            "modtime": 1763764908
         }
     ],
     "name": "ble",
