@@ -1,0 +1,6 @@
+tests:
+  ese5180.led_switch.ztest:
+    platform_allow:
+      - native_sim
+    tags: sen0209 unit hardware
+    harness: ztest
