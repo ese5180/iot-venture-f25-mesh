@@ -77,6 +77,7 @@ int sen0209_init(struct sen0209_instance *instance, const struct sen0209_config 
 		printk("SEN0209: Invalid instance or config parameter\n");
 		return -EINVAL;
 	}
+
 	
 	// todo
 	/* Validate sample interval */
