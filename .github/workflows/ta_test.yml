@@ -88,10 +88,9 @@ jobs:
               echo "=== Running test ==="
               west build -t run ble/tests/MY_TEST
 
-              echo "== Build nrf7002dk/nrf5340/cpuapp =="
-              west build -p always -b nrf7002dk/nrf5340/cpuapp ble --pristine
             '
-
+      # echo "== Build nrf7002dk/nrf5340/cpuapp =="
+      # west build -p always -b nrf7002dk/nrf5340/cpuapp ble --pristine
 
 
       # 5️ Upload build artifacts (optional, to review logs or ELF)
