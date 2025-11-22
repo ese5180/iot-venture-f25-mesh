@@ -81,9 +81,9 @@ int sen0209_init(struct sen0209_instance *instance, const struct sen0209_config 
 	
 	// todo
 	/* Validate sample interval */
-	// if (config->sample_interval_ms == 0) {
-    //     return -EINVAL;
-    // }
+	if (config->sample_interval_ms == 0) {
+        return -EINVAL;
+    }
 
 	/* Store configuration parameters in instance */
 	instance->adc_channel = config->adc_channel;
