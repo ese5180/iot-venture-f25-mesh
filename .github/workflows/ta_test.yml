@@ -50,7 +50,7 @@ jobs:
           echo "=== Docker images after pull ==="
           docker images
 
-      # 4️ Build and run your test inside Zephyr container
+      # 4️ Build and run your test inside Zephyr container, Use twister
       - name: Build and run MY_TEST
         run: |
           docker run --rm \
@@ -82,13 +82,17 @@ jobs:
               echo "=== Exporting Zephyr package ==="
               west zephyr-export
 
-              echo "=== Building test ==="
-              west build -p always -b native_sim/native/64 ble/tests/MY_TEST --pristine
-
-              echo "=== Running test ==="
-              west build -t run ble/tests/MY_TEST
-
+              echo "=== Running all tests with Twister ==="
+              west twister -p native_sim/native/64 -T ble/tests \
+                --inline-logs \
+                --report-junit twister.xml \
+                --report-json twister.json
             '
+      # echo "=== Building test ==="
+      # west build -p always -b native_sim/native/64 ble/tests/MY_TEST --pristine
+
+      # echo "=== Running test ==="
+      # west build -t run ble/tests/MY_TEST
       # echo "== Build nrf7002dk/nrf5340/cpuapp =="
       # west build -p always -b nrf7002dk/nrf5340/cpuapp ble --pristine
 
