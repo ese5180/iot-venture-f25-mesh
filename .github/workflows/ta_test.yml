@@ -51,7 +51,7 @@ jobs:
           docker images
 
       # 4️ Build and run your test inside Zephyr container
-      - name: Build and run test_sen0209
+      - name: Build and run test_BME380
         run: |
           docker run --rm \
             -u "$(id -u):$(id -g)" \
@@ -83,10 +83,10 @@ jobs:
               west zephyr-export
 
               echo "=== Building test ==="
-              west build -p always -b native_sim/native/64 ble/tests/test_sen0209 --pristine
+              west build -p always -b native_sim/native/64 ble/tests/test_BME380 --pristine
 
               echo "=== Running test ==="
-              west build -t run ble/tests/test_sen0209
+              west build -t run ble/tests/test_BME380
 
               echo "== Build nrf7002dk/nrf5340/cpuapp =="
               west build -p always -b nrf7002dk/nrf5340/cpuapp ble --pristine
