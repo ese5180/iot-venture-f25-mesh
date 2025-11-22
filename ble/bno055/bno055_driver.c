@@ -488,8 +488,8 @@ int bno055_read_quaternion(bno055_quaternion_t *quat)
                     LOG_WRN("⚠️  Calibration insufficient: Sys=%d Gyro=%d Accel=%d Mag=%d",
                             calib.sys, calib.gyro, calib.accel, calib.mag);
                 } else {
-                    LOG_WRN("⚠️  Calibration insufficient: Sys=%d Gyro=%d Accel=%d (IMU mode)",
-                            calib.sys, calib.gyro, calib.accel);
+                    // LOG_WRN("⚠️  Calibration insufficient: Sys=%d Gyro=%d Accel=%d (IMU mode)",
+                    //         calib.sys, calib.gyro, calib.accel);
                 }
                 calib_warning.last_warning_time = now;
             }

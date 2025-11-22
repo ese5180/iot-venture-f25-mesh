@@ -1525,5 +1525,13 @@ wifi-max-tx-pwr-5g-high-mcs7 = <13>;
   nordic,pm-ext-flash = &mx25r64;
  };
 };
+
+
+
+
+&uart0 {
+    status = "okay";
+    /delete-property/ hw-flow-control;
+};
 # 0 "<command-line>" 2
 # 1 "/opt/nordic/ncs/v3.0.2/zephyr/misc/empty_file.c"

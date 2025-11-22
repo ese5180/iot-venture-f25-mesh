@@ -517,8 +517,8 @@ build CMakeFiles/pristine | ${cmake_ninja_workdir}CMakeFiles/pristine: CUSTOM_CO
 #############################################
 # Custom command for zephyr/autogen-pubkey.c
 
-build zephyr/autogen-pubkey.c | ${cmake_ninja_workdir}zephyr/autogen-pubkey.c: CUSTOM_COMMAND /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/wrong_key.pem || modules/nrf/app_commit_h modules/nrf/ncs_commit_h modules/nrf/ncs_version_h modules/nrf/zephyr_commit_h zephyr/app_version_h zephyr/device_api_ld_target zephyr/driver_validation_h_target zephyr/kobj_types_h_target zephyr/offsets zephyr/offsets_h zephyr/parse_syscalls_target zephyr/syscall_list_h_target zephyr/version_h zephyr/zephyr_generated_headers
-  COMMAND = cd /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/mcuboot && /opt/anaconda3/bin/python /opt/nordic/ncs/v3.0.2/bootloader/mcuboot/scripts/imgtool.py getpub -k /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/wrong_key.pem > /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/mcuboot/zephyr/autogen-pubkey.c
+build zephyr/autogen-pubkey.c | ${cmake_ninja_workdir}zephyr/autogen-pubkey.c: CUSTOM_COMMAND /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/private_key.pem || modules/nrf/app_commit_h modules/nrf/ncs_commit_h modules/nrf/ncs_version_h modules/nrf/zephyr_commit_h zephyr/app_version_h zephyr/device_api_ld_target zephyr/driver_validation_h_target zephyr/kobj_types_h_target zephyr/offsets zephyr/offsets_h zephyr/parse_syscalls_target zephyr/syscall_list_h_target zephyr/version_h zephyr/zephyr_generated_headers
+  COMMAND = cd /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/mcuboot && /opt/anaconda3/bin/python /opt/nordic/ncs/v3.0.2/bootloader/mcuboot/scripts/imgtool.py getpub -k /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/private_key.pem > /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/mcuboot/zephyr/autogen-pubkey.c
   DESC = Generating zephyr/autogen-pubkey.c
   restat = 1
 

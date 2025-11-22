@@ -11,6 +11,7 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/sys/printk.h> 
 
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gatt.h>
@@ -43,7 +44,7 @@ static struct gpio_callback button_cb_data;
 
 /* Timing configuration */
 #define IMU_SAMPLE_RATE_HZ      100
-#define IMU_SAMPLE_PERIOD_MS    (1000 / IMU_SAMPLE_RATE_HZ)
+#define IMU_SAMPLE_PERIOD_MS    (10000 / IMU_SAMPLE_RATE_HZ)
 
 /* Zero-point calibration settings */
 #define ZERO_CALIB_SAMPLES      20    /* Number of samples to average */
@@ -676,6 +677,10 @@ static void bme_thread(void *p1, void *p2, void *p3)
             // 温度乘以 10
             int16_t temp_x10 = (int16_t)(temp_c * 10);
             MEMFAULT_METRIC_SET_SIGNED(temperature_celsius_x10, temp_x10);
+            
+            // LOG_INF("temp_c: (%f)", temp_c);
+            // LOG_INF("temp_x10: (%d)", temp_x10);
+            
         }
 
         rc = bme380_read_humidity(&humidity);
@@ -687,6 +692,9 @@ static void bme_thread(void *p1, void *p2, void *p3)
         else {
             int16_t humi_x10 = (int16_t)(humidity * 10);
             MEMFAULT_METRIC_SET_SIGNED(humidity_pct_x10, humi_x10);
+
+            // LOG_INF("humidity: (%f)", humidity);
+            // LOG_INF("humi_x10: (%d)", humi_x10);
         }
 
         rc = adc_read(adc_dev, &seq); // ADC
@@ -900,10 +908,33 @@ static int system_init(void)
 
 int main(void)
 {
-    LOG_INF("🔄 BME/pressure thread started");
+    // LOG_INF("🔄 BME/pressure thread started");
 
     int rc;
     int err;
+
+    // ⭐ 添加这部分 - 开始
+    printk("\n");
+    printk("========================================\n");
+    printk("  Smart Retainer Application\n");
+    printk("  SDK: nRF Connect SDK v3.0.2\n");
+    printk("========================================\n");
+    printk("Initializing...\n");
+    
+    // 等待日志系统完全初始化
+    k_msleep(300);
+    
+    LOG_INF("========================================");
+    LOG_INF("  Application Starting");
+    LOG_INF("========================================");
+    LOG_INF("Logging system ready");
+    LOG_INF("BME/pressure thread starting");
+    // ⭐ 添加这部分 - 结束
+    
+    // 原来的代码：
+    // LOG_INF("🔄 BME/pressure thread started");  // ← 删除这行
+    
+    printk("Probing BME380...\n");  // ⭐ 添加
 
     rc = bme380_probe();
     if (rc) { LOG_ERR("I2C/BME not ready (%d)", rc); return rc; }
@@ -954,5 +985,11 @@ int main(void)
     LOG_INF("✅ Smart Retainer started successfully");
     LOG_INF("🔄 System ready for operation");
     LOG_INF("");
-    return 0;
+
+    /* Keep main thread running for Shell and system services */
+    while (1) {
+        k_sleep(K_SECONDS(1));
+    }
+
+    // return 0;
 }

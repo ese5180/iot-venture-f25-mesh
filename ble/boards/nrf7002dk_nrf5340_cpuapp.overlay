@@ -96,3 +96,11 @@
 		nordic,pm-ext-flash = &mx25r64;
 	};
 };
+
+/* * 修复 Shell 无法输入的问题 
+ * 强制关闭 UART0 的硬件流控 
+ */
+&uart0 {
+    status = "okay";
+    /delete-property/ hw-flow-control;
+};

@@ -11654,7 +11654,7 @@ bss             0x0000000021000a18     0x3707
  *(SORT_BY_ALIGNMENT(.kernel_bss.*))
                 0x0000000021004120                __bss_end = ALIGN (0x4)
 
-noinit          0x0000000021004120     0x78d8
+noinit          0x0000000021004120     0xb8d8
  *(SORT_BY_ALIGNMENT(.noinit))
  *(SORT_BY_ALIGNMENT(.noinit.*))
  .noinit."WEST_TOPDIR/zephyr/samples/bluetooth/hci_ipc/src/main.c".0
@@ -11676,32 +11676,32 @@ noinit          0x0000000021004120     0x78d8
                 0x0000000021006020      0x200 zephyr/kernel/libkernel.a(init.c.obj)
                 0x0000000021006020                z_main_stack
  .noinit."WEST_TOPDIR/zephyr/kernel/mempool.c".kheap_buf__system_heap
-                0x0000000021006220     0x3000 zephyr/kernel/libkernel.a(mempool.c.obj)
+                0x0000000021006220     0x6000 zephyr/kernel/libkernel.a(mempool.c.obj)
                 0x0000000021006220                kheap__system_heap
  .noinit."WEST_TOPDIR/zephyr/kernel/system_work_q.c".0
-                0x0000000021009220     0x1000 zephyr/kernel/libkernel.a(system_work_q.c.obj)
+                0x000000002100c220     0x2000 zephyr/kernel/libkernel.a(system_work_q.c.obj)
  .noinit."WEST_TOPDIR/zephyr/subsys/bluetooth/host/hci_raw.c".5
-                0x000000002100a220      0x800 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
+                0x000000002100e220      0x800 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
  .noinit."WEST_TOPDIR/zephyr/subsys/bluetooth/host/hci_raw.c".4
-                0x000000002100aa20       0xe0 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
+                0x000000002100ea20       0xe0 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
  .noinit."WEST_TOPDIR/zephyr/subsys/bluetooth/host/hci_raw.c".3
-                0x000000002100ab00      0x2b2 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
- *fill*         0x000000002100adb2        0x2 
+                0x000000002100eb00      0x2b2 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
+ *fill*         0x000000002100edb2        0x2 
  .noinit."WEST_TOPDIR/zephyr/subsys/bluetooth/host/hci_raw.c".2
-                0x000000002100adb4      0x118 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
+                0x000000002100edb4      0x118 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
  .noinit."WEST_TOPDIR/zephyr/subsys/bluetooth/host/hci_raw.c".1
-                0x000000002100aecc      0xa14 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
+                0x000000002100eecc      0xa14 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
  .noinit."WEST_TOPDIR/zephyr/subsys/bluetooth/host/hci_raw.c".0
-                0x000000002100b8e0      0x118 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
+                0x000000002100f8e0      0x118 zephyr/subsys/bluetooth/host/libsubsys__bluetooth__host.a(hci_raw.c.obj)
  *(SORT_BY_ALIGNMENT(.kernel_noinit.*))
                 0x0000000021010000                __kernel_ram_end = 0x21010000
                 0x000000000000f5e8                __kernel_ram_size = (__kernel_ram_end - __kernel_ram_start)
 
 .last_ram_section
-                0x000000002100b9f8        0x0
-                0x000000002100b9f8                _image_ram_end = .
-                0x000000000000b9f8                _image_ram_size = (_image_ram_end - _image_ram_start)
-                0x000000002100b9f8                _end = .
-                0x000000002100b9f8                z_mapped_end = .
+                0x000000002100f9f8        0x0
+                0x000000002100f9f8                _image_ram_end = .
+                0x000000000000f9f8                _image_ram_size = (_image_ram_end - _image_ram_start)
+                0x000000002100f9f8                _end = .
+                0x000000002100f9f8                z_mapped_end = .
 OUTPUT(zephyr/zephyr.elf elf32-littlearm)
 LOAD linker stubs

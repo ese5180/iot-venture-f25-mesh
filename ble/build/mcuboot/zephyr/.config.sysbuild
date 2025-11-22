@@ -1,5 +1,5 @@
 # sysbuild controlled configuration settings
-CONFIG_BOOT_SIGNATURE_KEY_FILE="/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/wrong_key.pem"
+CONFIG_BOOT_SIGNATURE_KEY_FILE="/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/private_key.pem"
 CONFIG_BOOT_ENCRYPT_IMAGE=n
 CONFIG_PARTITION_MANAGER_ENABLED=y
 CONFIG_BUILD_OUTPUT_BIN=y
