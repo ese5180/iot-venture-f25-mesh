@@ -2,6 +2,6 @@ tests:
   bme280.test:
     platform_allow: 
       - nrf7002dk_nrf5340_cpuapp_ns
-      - native_posix_64
+      - native_sim
     tags: sum_test
     harness: ztests
