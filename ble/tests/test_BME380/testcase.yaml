@@ -1,6 +1,6 @@
 tests:
-  sen0209.ztest:
+  bme380.ztest:
     platform_allow:
       - native_sim
-    tags: sen0209 unit hardware
+    tags: bme380 unit hardware
     harness: ztest

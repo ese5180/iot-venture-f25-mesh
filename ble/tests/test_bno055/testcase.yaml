@@ -1,6 +1,6 @@
 tests:
-  sen0209.ztest:
+  bno055.ztest:
     platform_allow:
       - native_sim
-    tags: sen0209 unit hardware
+    tags: bno055 sensor ztest
     harness: ztest
