@@ -83,7 +83,7 @@ jobs:
               west zephyr-export
 
               echo "=== Running all tests with Twister ==="
-              west twister -p native_sim/native/64 -T ble/tests \
+              west twister -p nrf7002dk/nrf5340/cpuapp -T ble/tests \
               --inline-logs \
               --report-junit \
               --report-json

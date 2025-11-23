@@ -2,5 +2,7 @@ tests:
   1==1.test:
     platform_allow: 
       - native_sim/native/64
+      - qemu_cortex_m3
+      - nrf7002dk/nrf5340/cpuapp
     tags: sum_test
     harness: ztest

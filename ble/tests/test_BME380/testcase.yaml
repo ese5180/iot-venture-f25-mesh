@@ -1,6 +1,8 @@
 tests:
-  ese5180.led_switch.ztest:
+  bme280.ztest:
     platform_allow:
-      - nrf7002dk_nrf5340_cpuapp
-    tags: bme380 unit hardware
+      - native_sim/native/64
+      - qemu_cortex_m3
+      - nrf7002dk/nrf5340/cpuapp
+    tags: bme280 unit hardware
     harness: ztest
