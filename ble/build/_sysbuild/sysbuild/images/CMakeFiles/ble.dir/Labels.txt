@@ -1,0 +1,13 @@
+# Target labels
+ ble
+# Source files and their labels
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/CMakeFiles/ble
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/CMakeFiles/ble.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/CMakeFiles/ble-complete.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-build.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-configure.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-download.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-install.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-mkdir.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-patch.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/_sysbuild/sysbuild/images/ble-prefix/src/ble-stamp/ble-update.rule

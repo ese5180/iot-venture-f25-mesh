@@ -5,4 +5,8 @@ manifest:
     - name: zephyr
       url: https://github.com/zephyrproject-rtos/zephyr
       revision: main
+<<<<<<< HEAD
       import: true
+=======
+      import: true
+>>>>>>> haichao

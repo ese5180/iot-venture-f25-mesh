@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 tests:
   1==1.test:
     platform_allow: 
@@ -5,4 +6,13 @@ tests:
       - qemu_cortex_m3
       - nrf7002dk/nrf5340/cpuapp
     tags: sum_test
+=======
+tests:
+  1==1.test:
+    platform_allow: 
+      - native_sim
+      - qemu_cortex_m3
+      - nrf7002dk/nrf5340/cpuapp
+    tags: sum_test
+>>>>>>> haichao
     harness: ztest

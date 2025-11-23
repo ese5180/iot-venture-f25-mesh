@@ -1,0 +1,13 @@
+# Target labels
+ b0n
+# Source files and their labels
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/CMakeFiles/b0n
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/CMakeFiles/b0n.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/CMakeFiles/b0n-complete.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-build.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-configure.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-download.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-install.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-mkdir.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-patch.rule
+/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-update.rule
