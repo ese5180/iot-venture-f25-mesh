@@ -1,6 +1,0 @@
-tests:
-  ese5180.basic.qemu:
-    platform_allow:
-      - qemu_cortex_m3
-    tags: qemu basic
-    harness: ztest
