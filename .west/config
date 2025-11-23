@@ -1,0 +1,7 @@
+[manifest]
+path = ble
+file = west.yml
+
+[zephyr]
+base = zephyr
+
