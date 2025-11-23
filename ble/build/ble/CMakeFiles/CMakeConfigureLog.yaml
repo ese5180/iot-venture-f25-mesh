@@ -139,8 +139,8 @@ events:
     checks:
       - "Looking for include file stdatomic.h"
     directories:
-      source: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-XK5gIE"
-      binary: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-XK5gIE"
+      source: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-LZNULR"
+      binary: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-LZNULR"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -150,12 +150,12 @@ events:
       variable: "HAVE_STDATOMIC_H"
       cached: true
       stdout: |
-        Change Dir: '/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-XK5gIE'
+        Change Dir: '/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-LZNULR'
         
-        Run Build Command(s): /usr/local/bin/ninja -v cmTC_3fa73
-        [1/2] /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc   -c -o CMakeFiles/cmTC_3fa73.dir/HAVE_STDATOMIC_H.c.obj -c /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-XK5gIE/HAVE_STDATOMIC_H.c
-        [2/2] : && /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc -c  CMakeFiles/cmTC_3fa73.dir/HAVE_STDATOMIC_H.c.obj -o cmTC_3fa73   && :
-        arm-zephyr-eabi-gcc: warning: CMakeFiles/cmTC_3fa73.dir/HAVE_STDATOMIC_H.c.obj: linker input file unused because linking not done
+        Run Build Command(s): /usr/local/bin/ninja -v cmTC_b914e
+        [1/2] /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc   -c -o CMakeFiles/cmTC_b914e.dir/HAVE_STDATOMIC_H.c.obj -c /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-LZNULR/HAVE_STDATOMIC_H.c
+        [2/2] : && /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc -c  CMakeFiles/cmTC_b914e.dir/HAVE_STDATOMIC_H.c.obj -o cmTC_b914e   && :
+        arm-zephyr-eabi-gcc: warning: CMakeFiles/cmTC_b914e.dir/HAVE_STDATOMIC_H.c.obj: linker input file unused because linking not done
         
       exitCode: 0
   -
@@ -167,8 +167,8 @@ events:
     checks:
       - "Looking for include file fcntl.h"
     directories:
-      source: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-tBr7iH"
-      binary: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-tBr7iH"
+      source: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-qjrEJK"
+      binary: "/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-qjrEJK"
     cmakeVariables:
       CMAKE_C_FLAGS: " -Wall -Wextra"
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -178,12 +178,12 @@ events:
       variable: "HAVE_FCNTL_H"
       cached: true
       stdout: |
-        Change Dir: '/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-tBr7iH'
+        Change Dir: '/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-qjrEJK'
         
-        Run Build Command(s): /usr/local/bin/ninja -v cmTC_47952
-        [1/2] /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc   -Wall -Wextra -c -o CMakeFiles/cmTC_47952.dir/HAVE_FCNTL_H.c.obj -c /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-tBr7iH/HAVE_FCNTL_H.c
-        [2/2] : && /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc -Wall -Wextra -c  CMakeFiles/cmTC_47952.dir/HAVE_FCNTL_H.c.obj -o cmTC_47952   && :
-        arm-zephyr-eabi-gcc: warning: CMakeFiles/cmTC_47952.dir/HAVE_FCNTL_H.c.obj: linker input file unused because linking not done
+        Run Build Command(s): /usr/local/bin/ninja -v cmTC_563a1
+        [1/2] /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc   -Wall -Wextra -c -o CMakeFiles/cmTC_563a1.dir/HAVE_FCNTL_H.c.obj -c /Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/CMakeFiles/CMakeScratch/TryCompile-qjrEJK/HAVE_FCNTL_H.c
+        [2/2] : && /opt/nordic/ncs/toolchains/ef4fc6722e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc -Wall -Wextra -c  CMakeFiles/cmTC_563a1.dir/HAVE_FCNTL_H.c.obj -o cmTC_563a1   && :
+        arm-zephyr-eabi-gcc: warning: CMakeFiles/cmTC_563a1.dir/HAVE_FCNTL_H.c.obj: linker input file unused because linking not done
         
       exitCode: 0
 ...

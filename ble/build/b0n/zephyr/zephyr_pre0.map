@@ -653,7 +653,7 @@ Discarded input sections
  .rodata.flash_map_entries
                 0x0000000000000000        0x4 zephyr/libzephyr.a(flash_map_partition_manager.c.obj)
  .rodata.default_flash_map
-                0x0000000000000000       0xa0 zephyr/libzephyr.a(flash_map_partition_manager.c.obj)
+                0x0000000000000000       0xb0 zephyr/libzephyr.a(flash_map_partition_manager.c.obj)
  .debug_info    0x0000000000000000      0x238 zephyr/libzephyr.a(flash_map_partition_manager.c.obj)
  .debug_abbrev  0x0000000000000000       0xf5 zephyr/libzephyr.a(flash_map_partition_manager.c.obj)
  .debug_aranges

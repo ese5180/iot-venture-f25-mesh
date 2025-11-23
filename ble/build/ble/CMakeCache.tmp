@@ -747,9 +747,9 @@ HWM:INTERNAL=v2
 HWMv2:INTERNAL=True
 KERNEL_META_PATH:INTERNAL=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/zephyr/zephyr.meta
 //shared var
-PM_YML_DEP_FILES:INTERNAL=/opt/nordic/ncs/v3.0.2/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53
+PM_YML_DEP_FILES:INTERNAL=/opt/nordic/ncs/v3.0.2/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53;/opt/nordic/ncs/v3.0.2/nrf/subsys/partition_manager/pm.yml.memfault
 //shared var
-PM_YML_FILES:INTERNAL=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53
+PM_YML_FILES:INTERNAL=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53;/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/nrf/subsys/partition_manager/pm.yml.memfault
 //List of SoC directories for SoC (nrf5340)
 SOC_DIRECTORIES:INTERNAL=/opt/nordic/ncs/v3.0.2/zephyr/soc/nordic
 //SoC Linker script

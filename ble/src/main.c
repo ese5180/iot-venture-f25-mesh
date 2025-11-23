@@ -18,6 +18,7 @@
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/sys/byteorder.h>
 #include <memfault/metrics/metrics.h>
+#include <memfault/core/trace_event.h>
 #include <math.h>
 
 #include "bme380.h"

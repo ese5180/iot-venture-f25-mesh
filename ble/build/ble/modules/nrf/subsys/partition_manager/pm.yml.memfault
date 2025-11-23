@@ -1,0 +1,6 @@
+memfault_storage:
+  placement:
+    before: [tfm_storage, end]
+    align: {start: 0x1000}
+  size: 0x20000
+  inside: [nonsecure_storage]

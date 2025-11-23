@@ -538,7 +538,7 @@ ble_IS_TOP_LEVEL:STATIC=ON
 ble_SOURCE_DIR:STATIC=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble
 
 //imgtool sign sysbuild replacement
-imgtool_sign_sysbuild:STRING=--slot-size;0xf4000;--pad-header;--header-size;0x200
+imgtool_sign_sysbuild:STRING=--slot-size;0xd4000;--pad-header;--header-size;0x200
 
 //Value Computed by CMake
 metal_BINARY_DIR:STATIC=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/libmetal/libmetal
@@ -745,9 +745,9 @@ HWM:INTERNAL=v2
 HWMv2:INTERNAL=True
 KERNEL_META_PATH:INTERNAL=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/zephyr/zephyr.meta
 //shared var
-PM_YML_DEP_FILES:INTERNAL=/opt/nordic/ncs/v3.0.2/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53
+PM_YML_DEP_FILES:INTERNAL=/opt/nordic/ncs/v3.0.2/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53;/opt/nordic/ncs/v3.0.2/nrf/subsys/partition_manager/pm.yml.memfault
 //shared var
-PM_YML_FILES:INTERNAL=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53
+PM_YML_FILES:INTERNAL=/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/nrf/subsys/partition_manager/pm.yml.rpmsg_nrf53;/Users/zhaohaichao/Desktop/ESE5180/iot-venture-f25-mesh/ble/build/ble/modules/nrf/subsys/partition_manager/pm.yml.memfault
 //List of SoC directories for SoC (nrf5340)
 SOC_DIRECTORIES:INTERNAL=/opt/nordic/ncs/v3.0.2/zephyr/soc/nordic
 //SoC Linker script
