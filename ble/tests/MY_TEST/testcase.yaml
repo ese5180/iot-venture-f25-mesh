@@ -3,4 +3,4 @@ tests:
     platform_allow: 
       - native_sim/native/64
     tags: sum_test
-    harness: ztests
+    harness: ztest

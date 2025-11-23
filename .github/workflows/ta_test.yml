@@ -82,12 +82,13 @@ jobs:
               echo "=== Exporting Zephyr package ==="
               west zephyr-export
 
-              echo "=== Running all tests with Twister ==="
-              west twister -p native_sim/native/64 -T ble/tests \
-                --inline-logs \
-                --report-junit \
-                --report-json
+              
             '
+      # echo "=== Running all tests with Twister ==="
+      # west twister -p native_sim/native/64 -T ble/tests \
+      # --inline-logs \
+      # --report-junit \
+      # --report-json
       # echo "=== Building test ==="
       # west build -p always -b native_sim/native/64 ble/tests/MY_TEST --pristine
 

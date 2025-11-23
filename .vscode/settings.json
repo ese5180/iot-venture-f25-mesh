@@ -7,5 +7,6 @@
     },
     "nrf-connect.applications": [
         "${workspaceFolder}\\ble"
-    ]
+    ],
+    "cmake.sourceDirectory": "D:/ESE5180/iot-venture-f25-mesh/zephyr/kernel"
 }
