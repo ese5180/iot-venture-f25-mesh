@@ -1,6 +1,6 @@
 tests:
   bme380.ztest:
     platform_allow:
-      - native_sim
+      - native_sim/native/64
     tags: bme380 unit hardware
     harness: ztest

@@ -1,6 +1,6 @@
 tests:
   bno055.ztest:
     platform_allow:
-      - native_sim
+      - native_sim/native/64
     tags: bno055 sensor ztest
     harness: ztest

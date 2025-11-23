@@ -1,6 +1,6 @@
 tests:
   sen0209.ztest:
     platform_allow:
-      - native_sim
+      - native_sim/native/64
     tags: sen0209 unit hardware
     harness: ztest

@@ -13,7 +13,7 @@ ZTEST(bme380_tests, test_probe_fail)
 {
     /* Hack: simulate device not ready by checking null bus */
     /* This test ensures bme380_probe() returns a negative value */
-    int ret = bme380_probe();
+    int ret = bme380_probe(); 
     zassert_true(ret <= 0, "Probe should fail in test environment");
 }
 
