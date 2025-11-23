@@ -4,7 +4,3 @@ file = west.yml
 
 [zephyr]
 base = zephyr
-<<<<<<< HEAD
-
-=======
->>>>>>> haichao

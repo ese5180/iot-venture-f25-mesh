@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 tests:
   bme280.ztest:
     platform_allow:
@@ -6,13 +5,4 @@ tests:
       - qemu_cortex_m3
       - nrf7002dk/nrf5340/cpuapp
     tags: bme280 unit hardware
-=======
-tests:
-  bme280.ztest:
-    platform_allow:
-      - native_sim
-      - qemu_cortex_m3
-      - nrf7002dk/nrf5340/cpuapp
-    tags: bme280 unit hardware
->>>>>>> haichao
     harness: ztest
