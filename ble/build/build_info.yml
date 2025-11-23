@@ -1,5 +1,5 @@
 west:
-  command: C:\ncs\toolchains\0b393f9e1b\opt\bin\Scripts\west build -b nrf7002dk_nrf5340_cpuapp_ns
-    tests/MY_TEST --pristine
+  command: C:\ncs\toolchains\0b393f9e1b\opt\bin\Scripts\west build -p always -b native_sim/native/64
+    tests/test_BME380 --pristine
   topdir: D:\ESE5180\iot-venture-f25-mesh
   version: 1.2.0

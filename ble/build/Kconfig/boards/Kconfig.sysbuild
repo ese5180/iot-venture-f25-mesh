@@ -1,0 +1,2 @@
+# Load Sysbuild board Kconfig descriptions.
+osource "D:/ESE5180/iot-venture-f25-mesh/zephyr/boards/native/native_sim/Kconfig.sysbuild"

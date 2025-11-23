@@ -1,7 +1,7 @@
 tests:
   bme280.ztest:
     platform_allow:
-      - native_sim/native/64
+      - native_sim
       - qemu_cortex_m3
       - nrf7002dk/nrf5340/cpuapp
     tags: bme280 unit hardware
