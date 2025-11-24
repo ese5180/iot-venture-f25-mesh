@@ -6,9 +6,9 @@
 /build*/
 
 
-/bootloader*/
-/modules*/
-/nrf*/
-/nrfxlib*/
-/tools*/
+/bootloader
+/modules
+/nrf
+/nrfxlib
+/tools
 
