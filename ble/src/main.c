@@ -45,7 +45,7 @@ static struct gpio_callback button_cb_data;
 
 /* Timing configuration */
 #define IMU_SAMPLE_RATE_HZ      100
-#define IMU_SAMPLE_PERIOD_MS    (10000 / IMU_SAMPLE_RATE_HZ)
+#define IMU_SAMPLE_PERIOD_MS    (1000 / IMU_SAMPLE_RATE_HZ)
 
 /* Zero-point calibration settings */
 #define ZERO_CALIB_SAMPLES      20    /* Number of samples to average */

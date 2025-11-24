@@ -215,6 +215,8 @@ _Python3_EXECUTABLE:INTERNAL=/opt/anaconda3/bin/python
 //Python3 Properties
 _Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;4;64;<none>;cpython-312-darwin;abi3;/opt/anaconda3/lib/python3.12;/opt/anaconda3/lib/python3.12;/opt/anaconda3/lib/python3.12/site-packages;/opt/anaconda3/lib/python3.12/site-packages
 _Python3_INTERPRETER_SIGNATURE:INTERNAL=9d0e7da4b939452ed7e7ddb3c432af76
+//Interpreter reason failure
+_Python3_Interpreter_REASON_FAILURE:INTERNAL=
 //NumPy reason failure
 _Python3_NumPy_REASON_FAILURE:INTERNAL=
 //nRF Connect SDK partition managere controlled hex file

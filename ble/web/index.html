@@ -242,7 +242,7 @@
         const IMU_SERVICE_UUID = '12345678-1234-5678-1234-56789abcdef0';
         const QUATERNION_CHAR_UUID = '12345678-1234-5678-1234-56789abcdef1';
         const EULER_CHAR_UUID = '12345678-1234-5678-1234-56789abcdef2';
-        const CONTROL_CHAR_UUID = '12345678-1234-5678-1234-56789abcdef3';
+        const CONTROL_CHAR_UUID = '12345678-1234-5678-1234-56789abcdef6';
 
         // BLE variables
         let bleDevice = null;
@@ -650,7 +650,7 @@
                 statusDiv.classList.add('pulse');
 
                 bleDevice = await navigator.bluetooth.requestDevice({
-                    filters: [{ name: 'SmartRetainer' }],
+                    filters: [{ name: 'SmartRetainerPatch' }],
                     optionalServices: [IMU_SERVICE_UUID]
                 });
 
@@ -750,10 +750,27 @@
         function handleQuaternionData(event) {
             const value = event.target.value;
             
-            const w = value.getFloat32(0, true);
-            const x = value.getFloat32(4, true);
-            const y = value.getFloat32(8, true);
-            const z = value.getFloat32(12, true);
+            // 将 DataView 转换为字符串
+            const decoder = new TextDecoder('utf-8');
+            const text = decoder.decode(value);
+            
+            // 解析字符串 "W=1.000, X=0.000, Y=0.000, Z=0.000"
+            const matches = text.match(/W=([\d\.-]+),\s*X=([\d\.-]+),\s*Y=([\d\.-]+),\s*Z=([\d\.-]+)/);
+            
+            if (!matches) {
+                console.error('Failed to parse quaternion data:', text);
+                return;
+            }
+            
+            const w = parseFloat(matches[1]);
+            const x = parseFloat(matches[2]);
+            const y = parseFloat(matches[3]);
+            const z = parseFloat(matches[4]);
+
+            // const w = value.getFloat32(0, true);
+            // const x = value.getFloat32(4, true);
+            // const y = value.getFloat32(8, true);
+            // const z = value.getFloat32(12, true);
 
             // Store raw quaternion
             const rawQuaternion = { w, x, y, z };

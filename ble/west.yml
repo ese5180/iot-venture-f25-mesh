@@ -1,8 +1,0 @@
-manifest: 
-  version: 0.13
-
-  projects:
-    - name: zephyr
-      url: https://github.com/zephyrproject-rtos/zephyr
-      revision: main
-      import: true

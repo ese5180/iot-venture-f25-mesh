@@ -376,9 +376,6 @@ GNULD_VERSION_STRING:STRING=2.38
 //Path to a program.
 GPERF:FILEPATH=/usr/bin/gperf
 
-//Path to a program.
-IMGTOOL:FILEPATH=/opt/nordic/ncs/v3.0.2/bootloader/mcuboot/scripts/imgtool.py
-
 MACHINE:STRING=arm
 
 //Mbed TLS Config file
