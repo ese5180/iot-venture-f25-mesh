@@ -45,7 +45,7 @@ static struct gpio_callback button_cb_data;
 
 /* Timing configuration */
 #define IMU_SAMPLE_RATE_HZ      100
-#define IMU_SAMPLE_PERIOD_MS    (1000 / IMU_SAMPLE_RATE_HZ)
+#define IMU_SAMPLE_PERIOD_MS    (10000 / IMU_SAMPLE_RATE_HZ)
 
 /* Zero-point calibration settings */
 #define ZERO_CALIB_SAMPLES      20    /* Number of samples to average */
@@ -679,7 +679,7 @@ static void bme_thread(void *p1, void *p2, void *p3)
             int16_t temp_x10 = (int16_t)(temp_c * 10);
             MEMFAULT_METRIC_SET_SIGNED(temperature_celsius_x10, temp_x10);
             
-            // LOG_INF("temp_c: (%f)", temp_c);
+            LOG_INF("temp_c: (%f)", temp_c);
             // LOG_INF("temp_x10: (%d)", temp_x10);
             
         }
@@ -691,10 +691,11 @@ static void bme_thread(void *p1, void *p2, void *p3)
             // continue;
         }
         else {
+
             int16_t humi_x10 = (int16_t)(humidity * 10);
             MEMFAULT_METRIC_SET_SIGNED(humidity_pct_x10, humi_x10);
 
-            // LOG_INF("humidity: (%f)", humidity);
+            LOG_INF("humidity: (%f)", humidity);
             // LOG_INF("humi_x10: (%d)", humi_x10);
         }
 
@@ -731,7 +732,7 @@ static void bme_thread(void *p1, void *p2, void *p3)
                 grinding_left = true;
                 grinding_duration_left = 0;
                 grinding_episodes_left++;
-                LOG_INF(">>> 左侧检测到磨牙！(第%d次) <<<", grinding_episodes_left);
+                LOG_INF(">>>Detected Grinding Coun (Left): %d<<<", grinding_episodes_left);
             } else if (vibration_count_left < DETECTION_COUNT && grinding_left) {
                 grinding_left = false;
                 last_grinding_time_left_ms = grinding_duration_left * SAMPLE_INTERVAL_MS;
@@ -742,7 +743,7 @@ static void bme_thread(void *p1, void *p2, void *p3)
                 int total_sec = total_grinding_time_left_ms / 1000;
                 int total_ms  = total_grinding_time_left_ms % 1000;
 
-                LOG_INF(">>> 左侧磨牙停止 - 持续: %d.%03d秒 (累计: %d.%03d秒) <<<",
+                LOG_INF(">>>Grinding Stop (Left) - Continuing Time: %d.%03d seconds (Total: %d.%03d seconds)<<<",
                         sec, ms, total_sec, total_ms);
                 grinding_duration_left = 0;
             }
@@ -752,7 +753,7 @@ static void bme_thread(void *p1, void *p2, void *p3)
                 grinding_right = true;
                 grinding_duration_right = 0;
                 grinding_episodes_right++;
-                LOG_INF(">>> 右侧检测到磨牙！(第%d次) <<<", grinding_episodes_right);
+                LOG_INF(">>>Detected Grinding Coun (Right): %d<<<", grinding_episodes_right);
             } else if (vibration_count_right < DETECTION_COUNT && grinding_right) {
                 grinding_right = false;
                 last_grinding_time_right_ms = grinding_duration_right * SAMPLE_INTERVAL_MS;
@@ -763,7 +764,7 @@ static void bme_thread(void *p1, void *p2, void *p3)
                 int total_sec = total_grinding_time_right_ms / 1000;
                 int total_ms  = total_grinding_time_right_ms % 1000;
 
-                LOG_INF(">>> 右侧磨牙停止 - 持续: %d.%03d秒 (累计: %d.%03d秒) <<<",
+                LOG_INF(">>>>>>Grinding Stop (Left) - Continuing Time: %d.%03d seconds (Total: %d.%03d seconds)<<<",
                         sec, ms, total_sec, total_ms);
                 grinding_duration_right = 0;
             }
