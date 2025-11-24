@@ -4,3 +4,11 @@
 
 # build
 /build*/
+
+
+bootloader/
+modules/
+nrf/
+nrfxlib/
+tools/
+
