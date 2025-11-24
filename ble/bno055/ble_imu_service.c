@@ -96,10 +96,10 @@ BT_GATT_SERVICE_DEFINE(imu_svc,
                BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
     
     /* Control Characteristic */
-    // BT_GATT_CHARACTERISTIC(BT_UUID_IMU_CONTROL,
-    //                       BT_GATT_CHRC_WRITE,
-    //                       BT_GATT_PERM_WRITE,
-    //                       NULL, control_write, NULL),
+    BT_GATT_CHARACTERISTIC(BT_UUID_IMU_CONTROL,
+                          BT_GATT_CHRC_WRITE,
+                          BT_GATT_PERM_WRITE,
+                          NULL, control_write, NULL),
 );
 
 /**
