@@ -619,7 +619,7 @@
          */
         function updateRetainerOrientation(q) {
             if (!retainerModel) return;
-            retainerModel.quaternion.set(q.x, -q.y, q.z, q.w);
+            retainerModel.quaternion.set(q.x, q.z, -q.y, q.w);
             updateCount++;
         }
 
@@ -638,8 +638,8 @@
             // Convert to degrees
             return {
                 roll: euler.x * 180 / Math.PI,   // Rotation around X-axis
-                pitch: euler.y * 180 / Math.PI,  // Rotation around Y-axis  
-                yaw: euler.z * 180 / Math.PI     // Rotation around Z-axis
+                pitch: euler.z * 180 / Math.PI,  // Rotation around Y-axis  
+                yaw: euler.y * 180 / Math.PI     // Rotation around Z-axis
             };
         }
 
