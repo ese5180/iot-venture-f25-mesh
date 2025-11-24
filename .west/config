@@ -1,5 +1,5 @@
 [manifest]
-path = nrf
+path = .
 file = west.yml
 
 [zephyr]
