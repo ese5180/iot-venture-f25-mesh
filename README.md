@@ -834,6 +834,10 @@ Hardware → MCUboot (signed) → Application (signed) → User Code
 
 > 3. The target market and demographics are clearly defined. It will help us to focus on the target population and get useful feedback of the products potential users want. And when we design our product, in order to satisfy the real need of the market, we will consider the collected feedback.
 
+## (3.14.3) What parts of your project didn’t go well? Why?
+
+> Our product can only connect with one mobile device via BLE at the same time, which is not convenient for us to show the 3D model real-time rotation in the website and the collected data displayed in the mobile phone application at the same time.
+
 ## (3.14.4) If you had to do it again, how might you change your development approach given the finite time and money resources?
 
 > We will definitely consider more seriously about our market niche and their real need at the begining of designing our product.
@@ -846,8 +850,15 @@ Hardware → MCUboot (signed) → Application (signed) → User Code
 
 ## (3.14.6) Images of your final product hardware implementation
 
+> ![img_1](images/product_img_1.jpg)
+> ![img_2](images/product_img_2.jpg)
+> ![img_3](images/product_img_3.jpg)
+> ![img_4](images/product_img_4.jpg)
+
 
 ## (3.14.7) An exactly 400x400 pixel .jpg image that captures your project
+
+> ![img_3_resize](images/product_img_3_resize.jpg)
 
 ## (3.14.8) A <=5 minute video demonstrating
 
