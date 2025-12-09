@@ -9,6 +9,8 @@
  * - Configurable calibration requirements
  */
 
+
+
 #include "bno055_driver.h"
 #include <zephyr/logging/log.h>
 #include <math.h>
