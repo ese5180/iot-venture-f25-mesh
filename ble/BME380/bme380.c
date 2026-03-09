@@ -2,13 +2,13 @@
 #include "bme380.h"
 
 /**Temperature */
-#define REG_CTRL_MEAS 0xF4
-#define REG_TEMP_MSB 0xFA
-#define REG_CALIB_T1 0x88
+#define REG_CTRL_MEAS 0xF4 //测量控制寄存器（用于设置温度/气压的过采样和工作模式）
+#define REG_TEMP_MSB 0xFA //温度原始数据起始寄存器
+#define REG_CALIB_T1 0x88 //温度校准参数起始地址
 
 /**Humidity */
-#define REG_CTRL_HUM  0xF2 //Set after REG_CTRL_MEAS has set
-#define REG_HUM_MSB   0xFD
+#define REG_CTRL_HUM  0xF2 //Set after REG_CTRL_MEAS has set 湿度过采样控制寄存器
+#define REG_HUM_MSB   0xFD //湿度原始数据起始寄存器
 #define REG_CALIB_H1  0xA1
 #define REG_CALIB_H2  0xE1
 
@@ -24,12 +24,20 @@ static uint8_t  dig_H1, dig_H3;
 static int16_t  dig_H2, dig_H4, dig_H5;
 static int8_t   dig_H6;
 
+//测I2C总线是否Ready，但是应该再加上检测BME280的chip ID
 int bme380_probe(void)
 {
-    return device_is_ready(bme.bus) ? 0 : -ENODEV;
+    return device_is_ready(bme.bus) ? 0 : -ENODEV;//Error No Device
 }
 
 /******************* Temperature ********************/
+/*Set status 001 001 11*/
+int set_ctrl_meas(void)
+{
+    uint8_t tx[2] = { REG_CTRL_MEAS, 0x27 };// x1  x1  normal
+    return i2c_write_dt(&bme, tx, sizeof(tx));
+}
+
 /*Get temperature calibration data*/
 int read_temp_calib(void){
 	uint8_t buf[6];
@@ -42,14 +50,17 @@ int read_temp_calib(void){
     return 0;
 }
 
-/*Set status 001 001 11*/
-int set_ctrl_meas(void)
-{
-    uint8_t tx[2] = { REG_CTRL_MEAS, 0x27 };// x1  x1  normal
-    return i2c_write_dt(&bme, tx, sizeof(tx));
-}
-
 /***Detect Temperature and Measure Temperature *****/
+/*Read raw temperature and store value into adc_T*/
+int bme380_read_temp_raw(int32_t *adc_T) {
+    uint8_t raw[3];
+    int rc = i2c_burst_read_dt(&bme, REG_TEMP_MSB, raw, sizeof(raw));
+    if (rc) return rc;
+    *adc_T = ((int32_t)raw[0] << 12) |
+             ((int32_t)raw[1] << 4)  |
+             ((int32_t)raw[2] >> 4);
+    return 0;
+}
 
 /*Compensation formula(Got from datasheet)*/
 double compensate_temp(int32_t adc_T)
@@ -61,17 +72,6 @@ double compensate_temp(int32_t adc_T)
     t_fine = (int32_t)(var1 + var2);
     T = (var1 + var2)/5120.0;
     return T;
-}
-
-/*Read raw temperature and store value into adc_T*/
-int bme380_read_temp_raw(int32_t *adc_T) {
-    uint8_t raw[3];
-    int rc = i2c_burst_read_dt(&bme, REG_TEMP_MSB, raw, sizeof(raw));
-    if (rc) return rc;
-    *adc_T = ((int32_t)raw[0] << 12) |
-             ((int32_t)raw[1] << 4)  |
-             ((int32_t)raw[2] >> 4);
-    return 0;
 }
 
 /*Raw value to accurate value(from compemsation formula)*/
@@ -86,6 +86,12 @@ int bme380_read_temp_celsius(double *celsius) {
 
 
 /*************************Humidity******************************/
+/** Humidity oversampling setting(x1) */
+int set_ctrl_hum(void){
+    uint8_t tx[2] = { REG_CTRL_HUM, 0x01 };
+    return i2c_write_dt(&bme, tx, sizeof(tx));
+}
+
 /*Get humidity calibration data*/
 int read_hum_calib(void){
     uint8_t buf1[1];
@@ -106,12 +112,6 @@ int read_hum_calib(void){
     dig_H6 = (int8_t)buf2[6];
 
     return 0;
-}
-
-/** Humidity oversampling setting(x1) */
-int set_ctrl_hum(void){
-    uint8_t tx[2] = { REG_CTRL_HUM, 0x01 };
-    return i2c_write_dt(&bme, tx, sizeof(tx));
 }
 
 /** Read raw humidity */
