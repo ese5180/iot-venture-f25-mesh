@@ -821,3 +821,49 @@ Hardware → MCUboot (signed) → Application (signed) → User Code
 >Demonstrating functionality and integration of your peripheral devices.
 >
 >[Click here to see the video.](https://drive.google.com/file/d/1Q20c1Tb7CQr3waKKpqlNGXh-aqIBDTQ8/view?usp=sharing)
+
+# Assignment 3.14 Final Report (Website)
+
+## (3.14.1) Create a website & list your GitHub Website URL
+> Click the url to see the website: [https://ese5180.github.io/iot-venture-f25-mesh/](https://ese5180.github.io/iot-venture-f25-mesh/)
+
+## (3.14.2) What parts of your project would you consider a success? Why?
+> 1. All sensors' functions have been integrated together. It will reduce a lot of workload in future product software development.
+
+> 2. The 5-layer architecture of our future product is also considered as a success. Because it clearly divides different functions into different layers and we can simultaneously design and manufacture each layer, reducing the complexity of products' debuging.
+
+> 3. The target market and demographics are clearly defined. It will help us to focus on the target population and get useful feedback of the products potential users want. And when we design our product, in order to satisfy the real need of the market, we will consider the collected feedback.
+
+## (3.14.3) What parts of your project didn’t go well? Why?
+
+> Our product can only connect with one mobile device via BLE at the same time, which is not convenient for us to show the 3D model real-time rotation in the website and the collected data displayed in the mobile phone application at the same time.
+
+## (3.14.4) If you had to do it again, how might you change your development approach given the finite time and money resources?
+
+> We will definitely consider more seriously about our market niche and their real need at the begining of designing our product.
+
+## (3.14.5) Would you change your system design after this development cycle?
+
+> Yes. Firstly, we need to consider our target market more seriously. For example, will the product be used as a general oral wellness monitor or the medically used device? 
+>
+> Secondly, we may add a viberating motor or a beeper in our device in order to remind users when they are grinding their teeth.
+
+## (3.14.6) Images of your final product hardware implementation
+
+> ![img_1](images/product_img_1.jpg)
+> ![img_2](images/product_img_2.jpg)
+> ![img_3](images/product_img_3.jpg)
+> ![img_4](images/product_img_4.jpg)
+
+
+## (3.14.7) An exactly 400x400 pixel .jpg image that captures your project
+
+> ![img_3_resize](images/product_img_3_resize.jpg)
+
+## (3.14.8) A <=5 minute video demonstrating
+
+> [Click here to watch the video.](https://drive.google.com/file/d/1L2JsxN2AiYgKjHJUZFpJY4XeHPK8dSxT/view?usp=sharing)
+
+## (3.14.9) Ensure your source code for all firmware and software is uploaded into this repository.
+
+> [Click here to see the code.](https://github.com/ese5180/iot-venture-f25-mesh)
