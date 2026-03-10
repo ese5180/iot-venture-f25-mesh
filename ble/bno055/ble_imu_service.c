@@ -16,7 +16,7 @@
 LOG_MODULE_REGISTER(ble_service, LOG_LEVEL_DBG);
 
 /* Connection handle */
-static struct bt_conn *current_conn = NULL;
+static struct bt_conn *current_conn = NULL;//Single BLE Conncetion
 
 /* Notification flags */
 static bool quaternion_notify_enabled = false;
@@ -29,8 +29,8 @@ static ble_imu_control_callback_t control_callback = NULL;
 /* Advertising parameters (saved for restart) */
 static struct bt_le_adv_param adv_param = {
     .id = BT_ID_DEFAULT,
-    .options = BT_LE_ADV_OPT_CONN | BT_LE_ADV_OPT_USE_NAME,
-    .interval_min = BT_GAP_ADV_FAST_INT_MIN_2,
+    .options = BT_LE_ADV_OPT_CONN | BT_LE_ADV_OPT_USE_NAME,//can be connected and broadcast automatically
+    .interval_min = BT_GAP_ADV_FAST_INT_MIN_2,//FAST Broadcast mode
     .interval_max = BT_GAP_ADV_FAST_INT_MAX_2,
 };
 
@@ -61,7 +61,7 @@ BT_GATT_SERVICE_DEFINE(imu_svc,
                           BT_GATT_PERM_NONE,
                           NULL, NULL, NULL),
     BT_GATT_CCC(quaternion_ccc_changed,
-               BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+               BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),//client character configuration
     
     /* Euler Angles Characteristic */
     BT_GATT_CHARACTERISTIC(BT_UUID_IMU_EULER,
@@ -313,13 +313,13 @@ int ble_imu_service_send_attitude(const attitude_t *attitude)
 
     /* Send quaternion data if subscribed */
     if (quaternion_notify_enabled) {
-        ble_quaternion_packet_t quat_packet = {
-            .w = attitude->quaternion.w,
-            .x = attitude->quaternion.x,
-            .y = attitude->quaternion.y,
-            .z = attitude->quaternion.z,
-            .timestamp = attitude->timestamp
-        };
+        // ble_quaternion_packet_t quat_packet = {
+        //     .w = attitude->quaternion.w,
+        //     .x = attitude->quaternion.x,
+        //     .y = attitude->quaternion.y,
+        //     .z = attitude->quaternion.z,
+        //     .timestamp = attitude->timestamp
+        // };
         
         int len = snprintf(msg_qua, sizeof(msg_qua), "W=%.3f, X=%.3f, Y=%.3f, Z=%.3f", attitude->quaternion.w,attitude->quaternion.x,attitude->quaternion.y,attitude->quaternion.z);
         bt_gatt_notify(current_conn, &imu_svc.attrs[1], msg_qua, len);
@@ -327,12 +327,12 @@ int ble_imu_service_send_attitude(const attitude_t *attitude)
 
     /* Send Euler angles if subscribed */
     if (euler_notify_enabled) {
-        ble_euler_packet_t euler_packet = {
-            .roll = attitude->euler.roll,
-            .pitch = attitude->euler.pitch,
-            .yaw = attitude->euler.yaw,
-            .timestamp = attitude->timestamp
-        };
+        // ble_euler_packet_t euler_packet = {
+        //     .roll = attitude->euler.roll,
+        //     .pitch = attitude->euler.pitch,
+        //     .yaw = attitude->euler.yaw,
+        //     .timestamp = attitude->timestamp
+        // };
         float roll_deg = attitude->euler.roll * 180.0f / M_PI;
         float pitch_deg = attitude->euler.pitch * 180.0f / M_PI;
         float yaw_deg = attitude->euler.yaw * 180.0f / M_PI;
